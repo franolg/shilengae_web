@@ -8,5 +8,6 @@ require_once(PRIVATE_PATH . "/core/cog.php");
 require_once(PRIVATE_PATH . "/core/login.php");
 require_once(PRIVATE_PATH . "/core/country.php");
 require_once(PRIVATE_PATH . "/core/password.php");
+require_once(PRIVATE_PATH . "/core/users.php");
 
 ?>

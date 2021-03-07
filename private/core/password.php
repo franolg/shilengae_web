@@ -11,7 +11,7 @@ class ClassName {
 		$this->newpassword = $newpassword;
 	}
 
-	public bool isPassword() {
+	public function isPassword() {
 		$db = Database::getInstance();
 		$c = $db->getc();
 		$cog = new Cog();
@@ -22,7 +22,7 @@ class ClassName {
 			return false;
 		}
 	}
-	public bool changePassword() {
+	public function changePassword() {
 		$db = Database::getInstance();
 		$c = $db->getc();
 		$cog = new Cog();

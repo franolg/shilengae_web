@@ -8,7 +8,6 @@ class Country {
 	function __construct($api = 1) { 
 		$this->api = $api;
 	}
-	
 	public function AddCountry($name = null,$short = null) {
 		$db = Database::getInstance(); // getting instance of the database.
 		$c = $db->getc();
@@ -56,6 +55,7 @@ class Country {
 					return array(
 						'success' => 1,
 						'statuscode' => 200,
+                                    'list' => $this->CountryShowToggle(),
 						'msg' => "Result found.",
 						'country' => $list,
 					);
@@ -63,6 +63,7 @@ class Country {
 				return array(
 						'success' => 0,
 						'statuscode' => 400,
+                                    'list' => false,
 						'msg' => "List is empty",
 						'country' => null,
 					);
