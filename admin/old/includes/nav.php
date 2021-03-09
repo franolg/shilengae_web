@@ -6,7 +6,7 @@
 
         <ul class="list-unstyled components">
             <li class="active">
-                <a href="#homeSubmenu" class="btn-bounce"><i class="fas fa-home ispace"></i> Home</a>
+                <a href="index" class="btn-bounce"><i class="fas fa-home ispace"></i> Home</a>
             </li>
             <li>
                 <a href="addc.php" class="btn-bounce"><i class="fas fa-globe-americas ispace"></i> Add Country</a>

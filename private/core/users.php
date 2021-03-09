@@ -50,7 +50,7 @@ class Users {
 		$callingcode = $cog->sql_prep($callingcode);	
 		$language = $cog->sql_prep($language);
 		$timer = time();
-		if(!$this->mobileExist($email)) {
+		if(!$this->mobileExist($mobile)) {
 			if(!$this->emailExist($email)) {
 				if($c->query("INSERT INTO tableusers (user_id,first_name,last_name,email,mobile,password,country,calling_code,language,joined) VALUES ('$userid','$firstname','$lastname','$email','$mobile','$password','$country','$callingcode','$language','$timer')")){
 					return array('success' => 1,'statuscode' => 200,"msg" => "Registered Successfully");
