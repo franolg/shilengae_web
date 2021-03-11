@@ -8,11 +8,10 @@ class Login {
 	public $req_type;
 
 
-	public function __construct($mobile,$password,$calling_code,$app_country,$req_type) {
+	public function __construct($mobile,$password,$calling_code,$req_type) {
 		$this->mobile = $mobile;
 		$this->password = $password;
 		$this->calling_code = $calling_code;
-		$this->app_country = $app_country;
 		$this->req_type = $req_type;
 	}
 
@@ -24,7 +23,6 @@ class Login {
 		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."' AND calling_code = '".$cog->sql_prep($this->calling_code)."'");
 		if ($qur->num_rows > 0) {
 			$exe = $qur->fetch_array();
-			if($this->app_country == $exe['SelectedCountry']){
 				if ($this->password == $exe['password']) {
 					if ($this->req_type == 'api') {
 						return array(
@@ -76,13 +74,7 @@ class Login {
 						'msg' => 'Sorry, this password is incorrect!',
 					);
 				}
-			}else {
-				return array(
-					'success' => 0,
-					'statuscode' => 400,
-					'msg' => 'App country Doesn\'t Match!',
-				);
-			}
+			
 		}else {
 			return array(
 				'success' => 0,
