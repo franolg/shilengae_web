@@ -33,4 +33,4 @@ and change it with your current database name and other
 
 ## Step 6 
 
-to access the the web go to hostname/admin
+to access the the web go to hostname/admin/login
