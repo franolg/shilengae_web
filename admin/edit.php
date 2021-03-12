@@ -16,17 +16,48 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
 }
 
 $id = @$_GET['q'];
-if(isset($_POST['add_pro'])) {
-  $sqq1= $c->query("SELECT * FROM project WHERE pid='$id'");
+$sqq = $c->query("SELECT * FROM tableusers WHERE user_id='$id'");
+if ($sqq->num_rows == 0) {
+  ?>
+  No result <a href="index.php">Go Back</a>
+  <?php
+}else {
+$exe = $sqq->fetch_array();
+?>
+          
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>Edit <?php echo $exe['first_name']." ".$exe['last_name']; ?></title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <?php include 'includes/style.php' ?>
+</head>
+<body>
+<?php
+if(isset($_POST['edit_user'])) {
+  $sqq1= $c->query("SELECT * FROM tableusers WHERE user_id='$id'");
   $exo1 = $sqq1->fetch_array();
-  $pid = $exo1['pid'];
-  $name = mysqli_real_escape_string($c,$_POST['name']);
-  $location = mysqli_real_escape_string($c,$_POST['location']);
-  $theme = mysqli_real_escape_string($c,$_POST['theme']);
-  $scope = mysqli_real_escape_string($c,$_POST['scope']);
-  $description = mysqli_real_escape_string($c,$_POST['description']);
-  $cat = mysqli_real_escape_string($c,$_POST['cat']);
-  if($c->query("UPDATE project SET name = '$name',category = '$cat',location = '$location',theme = '$theme',scope = '$scope',description = '$description' WHERE pid='$pid'")) {
+  $userid = $exo1['user_id'];
+  $first_name = mysqli_real_escape_string($c,$_POST['first_name']);
+  $last_name = mysqli_real_escape_string($c,$_POST['last_name']);
+  $email = mysqli_real_escape_string($c,$_POST['email']);
+  $mobile = mysqli_real_escape_string($c,$_POST['mobile']);
+  $country = mysqli_real_escape_string($c,$_POST['country']);
+  $state = mysqli_real_escape_string($c,$_POST['state']);
+  $city = mysqli_real_escape_string($c,$_POST['city']);
+  $gender = mysqli_real_escape_string($c,$_POST['gender']);
+  $birth = mysqli_real_escape_string($c,$_POST['birth']);
+  $career = mysqli_real_escape_string($c,$_POST['career']);
+  $experience = mysqli_real_escape_string($c,$_POST['experience']);
+  $salary = mysqli_real_escape_string($c,$_POST['salary']);
+  $calling_code = mysqli_real_escape_string($c,$_POST['calling_code']);
+  $business = mysqli_real_escape_string($c,$_POST['business']);
+
+
+  if($c->query("UPDATE tableusers SET first_name = '$first_name',last_name = '$last_name',email = '$email',mobile = '$mobile',country = '$country',state = '$state',city = '$city',gender = '$gender',birth = '$birth',career = '$career',experience = '$experience',salary = '$salary',calling_code = '$calling_code',business = '$business' WHERE user_id='$userid'")) {
       ?>
       <script>
         const Toast = Swal.mixin({
@@ -43,7 +74,7 @@ if(isset($_POST['add_pro'])) {
 
         Toast.fire({
           icon: 'success',
-          title: '<?php echo $name; ?> have been edited to projects successfully.'
+          title: '<?php echo $first_name; ?> has been edited successfully.'
         })
       </script>
       <?php
@@ -71,38 +102,8 @@ if(isset($_POST['add_pro'])) {
     <?php
   }
 }
-
-$sqq = $c->query("SELECT * FROM project WHERE pid='$id'");
-if ($sqq->num_rows == 0) {
-  ?>
-  No result <a href="index.php">Go Back</a>
-  <?php
-}else {
-$exo = $sqq->fetch_array();
-
 ?>
-          
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Edit <?php echo $exo['name']; ?></title>
-  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
-  <link href="assets/demo/demo.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.js"></script>
-</head>
-
-<body class="">
-  <div class="wrapper ">
+<div class="wrapper ">
     <?php
     include_once 'nav.php';
     ?>
@@ -114,8 +115,8 @@ $exo = $sqq->fetch_array();
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Edit <?php echo ucwords($exo['name']); ?> Project</h4>
-                  <p class="card-category">Be sure before Editing the project</p>
+                  <h4 class="card-title">Edit <?php echo ucwords($exe['first_name']); ?></h4>
+                  <p class="card-category">Be sure before Editing Users</p>
                 </div>
                 <div class="card-body" style="overflow-x: hidden;">
                   
@@ -123,94 +124,106 @@ $exo = $sqq->fetch_array();
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Project Name</label>
-                          <input type="text" name="name" class="form-control" value="<?php echo $exo['name']; ?>">
+                          <label class="bmd-label-floating">First Name</label>
+                          <input type="text" name="first_name" class="form-control" value="<?php echo $exe['first_name']; ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <style>
-                          .temp1 > .btn {
-                            padding: unset !important;
-                            line-height: 3 !important;
-                            margin: 0px 0 0 !important;
-                          }
-                           .show > .btn.dropdown-toggle, .show > .btn.dropdown-toggle:hover, .show > .btn.dropdown-toggle:focus {
-                            background: transparent !important;
-                            color: #919191 !important;
-                            border-color: transparent !important;
-                            box-shadow: unset !important;
-                           }
-                           .dropdown-menu .dropdown-item:hover {
-                            color: #919191;
-                           }
-                           .dropdown-menu .dropdown-item:hover {
-                            background: linear-gradient(60deg, #ffa726, #fb8c00);
-                            color: #fff;
-                           }
-                           .dropdown-item.active {
-                            background: linear-gradient(60deg, #ffa726, #fb8c00);
-                            color: #fff;
-                           }
-                        </style>
-                      <div class="form-group">
-                        <select class="form-control selectpicker temp1" name="cat" data-style="btn btn-link">
-                          <?php
-                          $dw = $c->query("SELECT * FROM category");
-                          if($dw->num_rows > 0){
-                            echo "<optgroup label='Category'>";
-                            while ($er = $dw->fetch_array()) {
-                              $check = "";
-                              if ($exo['category'] == $er['name']) {
-                                $check = "selected";
-                              }
-                              echo '<option value="'.$er['name'].'" '.$check.'>'.$er['name'].'</option>';
-                            }
-                            echo "</optgroup>";
-                          }else {
-                            ?>
-                            <optgroup label="Category"><option>No result</option></optgroup>
-                            <?php
-                          }
-                          ?>
-                        </select>
+                       <div class="form-group">
+                          <label class="bmd-label-floating">Last Name</label>
+                          <input type="text" name="last_name" class="form-control" value="<?php echo $exe['last_name']; ?>">
+                        </div>
                       </div>
-                    </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Location</label>
-                          <input type="text" name="location" class="form-control" value="<?php echo $exo['location']; ?>">
+                          <label class="bmd-label-floating">Email</label>
+                          <input type="text" name="email" class="form-control" value="<?php echo $exe['email']; ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Theme</label>
-                          <input type="text" name="theme" class="form-control" value="<?php echo $exo['theme']; ?>">
+                          <label class="bmd-label-floating">Mobile</label>
+                          <input type="text" name="mobile" class="form-control" value="<?php echo $exe['mobile']; ?>">
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-12">
+                      <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Scope</label>
-                          <input type="text" name="scope" class="form-control" value="<?php echo $exo['scope']; ?>">
+                          <label class="bmd-label-floating">Country</label>
+                          <input type="text" name="country" class="form-control" value="<?php echo $exe['country']; ?>">
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
+                      <div class="col-md-6">
                         <div class="form-group">
-                          <label>Description</label>
-                          <div class="form-group">
-                          <!--<label class="bmd-label-floating">.</label> -->
-                          <textarea class="form-control" name="description" rows="5"><?php echo $exo['description']; ?></textarea>
-                          </div>
+                          <label class="bmd-label-floating">State</label>
+                          <input type="text" name="state" class="form-control" value="<?php echo $exe['state']; ?>">
                         </div>
                       </div>
                     </div>
 
-                    <button type="submit" name="add_pro" class="btn btn-warning pull-right">Edit Category</button>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">City</label>
+                          <input type="text" name="city" class="form-control" value="<?php echo $exe['city']; ?>">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Gender</label>
+                          <input type="text" name="gender" class="form-control" value="<?php echo $exe['gender']; ?>">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Birth</label>
+                          <input type="text" name="birth" class="form-control" value="<?php echo $exe['birth']; ?>">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Career</label>
+                          <input type="text" name="career" class="form-control" value="<?php echo $exe['career']; ?>">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Experience</label>
+                          <input type="text" name="experience" class="form-control" value="<?php echo $exe['experience']; ?>">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Salary</label>
+                          <input type="text" name="salary" class="form-control" value="<?php echo $exe['salary']; ?>">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Calling Code</label>
+                          <input type="text" name="calling_code" class="form-control" value="<?php echo $exe['calling_code']; ?>">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Business</label>
+                          <input type="text" name="business" class="form-control" value="<?php echo $exe['business']; ?>">
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="submit" name="edit_user" class="btn btn-warning pull-right">Edit User</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>
@@ -221,74 +234,9 @@ $exo = $sqq->fetch_array();
       </div>
 
     </div>
-<style>
-  .untext .material-icons {
-    bottom: 3px !important;
-    right: 3px !important;
-    top: unset !important;
-    font-size: unset !important;
-  } 
-  .untext {
-    width: 50%;
-    color: white;
-    font-size: 100%;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-  }
-  /* relevant styles */
-  .deg {
-    position: relative;
-    padding: 2% 2%;
-  }
 
-  .projer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgb(13, 13, 13, 0.42);
-    color: #fff;
-    visibility: hidden;
-    opacity: 0;
-    border-radius: 5px;
-    transition: opacity .2s, visibility .2s;
-  }
-
-  .deg:hover .projer {
-    visibility: visible;
-    opacity: 1;
-  }
-</style>
-
-
-  <script src="assets/js/core/jquery.min.js"></script>
-  <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script src="assets/js/plugins/moment.min.js"></script>
-  <script src="assets/js/plugins/sweetalert2.js"></script>
-  <script src="assets/js/plugins/jquery.validate.min.js"></script>
-  <script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/js/bootstrap-select.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.js"></script>
-  <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
-  <script src="assets/js/plugins/fullcalendar.min.js"></script>
-  <script src="assets/js/plugins/jquery-jvectormap.js"></script>
-  <script src="assets/js/plugins/nouislider.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-  <script src="assets/js/plugins/arrive.min.js"></script>
-  <script src="assets/js/plugins/chartist.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-notify.js"></script>
-  <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-
-
+<?php include 'includes/script.php' ?>
 
 </body>
-
 </html>
 <?php } ?>

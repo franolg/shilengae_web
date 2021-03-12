@@ -1,0 +1,54 @@
+/* relevant styles */
+  .deg {
+    position: relative;
+    padding: 2% 2%;
+  }
+  .management-btn > i {
+    color: #ff9800 !important;
+    font-size: 20px !important;
+  }
+  .management-btn {
+    color: #ff9800 !important;
+    font-size: 15px !important;
+  }
+  .projer {
+    position: absolute;
+    /*top: 0;
+    bottom: 0;*/
+    /*left: 0;*/
+    right: 0;
+    /*color: #fff;*/
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 5px;
+    transition: opacity .2s, visibility .2s;
+  }
+
+  .deg:hover .projer {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .temp1 > .btn {
+    padding: unset !important;
+    line-height: 3 !important;
+    margin: 0px 0 0 !important;
+  }
+   .show > .btn.dropdown-toggle, .show > .btn.dropdown-toggle:hover, .show > .btn.dropdown-toggle:focus {
+    background: transparent !important;
+    color: #919191 !important;
+    border-color: transparent !important;
+    box-shadow: unset !important;
+   }
+   .dropdown-menu .dropdown-item:hover {
+    color: #919191;
+   }
+   .dropdown-menu .dropdown-item:hover {
+    background: linear-gradient(60deg, #ffa726, #fb8c00);
+    color: #fff;
+   }
+   .dropdown-item.active {
+    background: linear-gradient(60deg, #ffa726, #fb8c00);
+    color: #fff;
+   }
+ 

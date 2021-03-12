@@ -35,20 +35,20 @@ class Users {
         $result = $exe == 0 ? false : true;
         return $result;
 	}
-	public function addUser($firstname = "",$lastname = "",$email = "",$mobile = "",$password = "",$country = "",$callingcode = "",$language = "",$facebook = false,$img) {
+	public function addUser($firstname = "",$lastname = "",$email = "",$mobile = "",$password = "",$country = "",$callingcode = "",$language = "",$facebook = false,$img = "") {
 		$db = Database::getInstance(); // getting instance of the database.
 		$c = $db->getc();
 		$cog = new Cog(); // getting instance of cog class. 
 		if(!$facebook) {
 			echo "hehehe";
-				$userid = uniqid()."/".time();	
-				$firstname = $cog->sql_prep($firstname);	
-				$lastname = $cog->sql_prep($lastname);	
-				$email = $cog->sql_prep(urldecode($email));	
-				$mobile = $cog->sql_prep($mobile);	
-				$password = $cog->sql_prep($password);	
-				$country = $cog->sql_prep($country);	
-				$callingcode = $cog->sql_prep($callingcode);	
+				$userid = uniqid()."/".time();
+				$firstname = $cog->sql_prep($firstname);
+				$lastname = $cog->sql_prep($lastname);
+				$email = $cog->sql_prep(urldecode($email));
+				$mobile = $cog->sql_prep($mobile);
+				$password = $cog->sql_prep($password);
+				$country = $cog->sql_prep($country);
+				$callingcode = $cog->sql_prep($callingcode);
 				$language = $cog->sql_prep($language);
 				$timer = time();
 				if(!$this->mobileExist($mobile)) {

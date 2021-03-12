@@ -3,15 +3,14 @@ class Password {
 
 	public $mobile;
 	public $password;
-	public $newpassword;
-
-	public function __construct($mobile = "",$newpassword = "",$password = "") {
+	public $code;
+	public function __construct($mobile = "",$password = "",$code = "") {
 		$this->mobile = $mobile;
 		$this->password = $password;
-		$this->newpassword = $newpassword;
+		$this->code = $code;
 	}
 	public function isPasswordValid() {
-		if (strlen($this->newpassword) < 6 && strlen($this->newpassword) > 15) {
+		if (strlen($this->password) < 6 && strlen($this->password) > 15) {
 			return false;
 		}else {
 			return true;
@@ -21,7 +20,7 @@ class Password {
 		$db = Database::getInstance();
 		$c = $db->getc();
 		$cog = new Cog();
-		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."'");
+		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."' AND calling_code = '".$cog->sql_prep($this->code)."'");
 		if ($qur->num_rows != 0) {
 			return true;
 		}else {
@@ -32,7 +31,7 @@ class Password {
 		$db = Database::getInstance();
 		$c = $db->getc();
 		$cog = new Cog();
-		if ($c->query("UPDATE tableusers SET password = '".$cog->sql_prep($this->password)."' WHERE mobile = '".$cog->sql_prep($this->mobile)."'")) {
+		if ($c->query("UPDATE tableusers SET password = '".$cog->sql_prep($this->password)."' WHERE mobile = '".$cog->sql_prep($this->mobile)."' AND calling_code = '".$cog->sql_prep($this->code)."'")) {
 			return true;
 		}else {
 			return false;
@@ -43,7 +42,7 @@ class Password {
 		$db = Database::getInstance();
 		$c = $db->getc();
 		$cog = new Cog();
-		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."'");
+		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."' AND calling_code = '".$cog->sql_prep($this->code)."'");
 		if ($qur->num_rows == 0) {
 			$qur = $c->query("SELECT * FROM tableusers WHERE email = '".$cog->sql_prep($email)."'");
 			if ($qur->num_rows == 0) {

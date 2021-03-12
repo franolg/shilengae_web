@@ -105,8 +105,7 @@ class Country {
             $exe = $adc->fetch_array();
             return $exe['name'];
       }
-      public function CityToCid($id)
-      {
+      public function CityToCid($id) {
             $db = Database::getInstance(); // getting instance of the database.
             $c = $db->getc();
             $adc = $c->query("SELECT * FROM cities WHERE city_id='$id'"); 
@@ -677,9 +676,9 @@ class Country {
             foreach ($countries as $code => $country_name) {
                   if($selected_country === $code){
                       $selected = 'selected="selected"';
-                      $options .= '<option value="' . $code . '" ' . $selected . ' >'. $code . '</option>';
+                      $options .= '<option value="' . $code . '" ' . $selected . ' >'. $code . ' ( '. $country_name.' )</option>';
                   } else {
-                      $options .= '<option value="' . $code . '" >'. $code . '</option>';
+                      $options .= '<option value="' . $code . '" >'. $code . ' ( '. $country_name.' )</option>';
                   }
             }
             return $options;

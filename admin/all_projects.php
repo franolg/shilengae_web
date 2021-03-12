@@ -50,17 +50,9 @@ function ago($datetime, $full = false) {
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Elnes Admin Panel</title>
+  <title>Shilengae Admin Panel</title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
-  <link href="assets/demo/demo.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.js"></script>
+<?php include 'includes/style.php' ?>
 </head>
 <body class="">
 <?php
@@ -144,70 +136,7 @@ if (isset($_GET['q'])) {
     </div>
   </div>
 
-<style>
-  .untext .material-icons {
-    bottom: 3px !important;
-    right: 3px !important;
-    top: unset !important;
-    font-size: unset !important;
-  } 
-  .untext {
-    width: 50%;
-    color: white;
-    font-size: 20px;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-  }
-  /* relevant styles */
-  .deg {
-    position: relative;
-    padding: 2% 2%;
-  }
-
-  .projer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgb(13, 13, 13, 0.42);
-    color: #fff;
-    visibility: hidden;
-    opacity: 0;
-    border-radius: 5px;
-    transition: opacity .2s, visibility .2s;
-  }
-
-  .deg:hover .projer {
-    visibility: visible;
-    opacity: 1;
-  }
-</style>
-
-
-  <script src="assets/js/core/jquery.min.js"></script>
-  <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script src="assets/js/plugins/moment.min.js"></script>
-  <script src="assets/js/plugins/sweetalert2.js"></script>
-  <script src="assets/js/plugins/jquery.validate.min.js"></script>
-  <script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/js/bootstrap-select.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.js"></script>
-  <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
-  <script src="assets/js/plugins/fullcalendar.min.js"></script>
-  <script src="assets/js/plugins/jquery-jvectormap.js"></script>
-  <script src="assets/js/plugins/nouislider.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-  <script src="assets/js/plugins/arrive.min.js"></script>
-  <script src="assets/js/plugins/chartist.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-notify.js"></script>
-  <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+<?php include 'includes/scipt.php' ?>
 
 
 

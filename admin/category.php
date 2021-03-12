@@ -14,65 +14,65 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
   header("Location: login.php");
   exit();
 }
-function ago($datetime, $full = false) {
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
 
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'year',
-        'm' => 'month',
-        'w' => 'week',
-        'd' => 'day',
-        'h' => 'hour',
-        'i' => 'minute',
-        's' => 'second',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-        } else {
-            unset($string[$k]);
-        }
-    }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? implode(', ', $string) . ' ago' : 'just now';
-}
 ?>
+          
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Elnes Admin Panel</title>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
-
-  <link href="../owl/owl.carousel.min.css" rel="stylesheet">
-
-  <link href="assets/demo/demo.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.js"></script>
-
-
+  <title>Shilengae Admin Panel</title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <?php include 'includes/style.php' ?>
 </head>
-<body>
+<body class="">
+<style>
+
+</style>
 <?php
-if (isset($_GET['q'])) {
-  $id = $_GET['q'];
-  $chj = $c->query("SELECT * FROM category WHERE id = '$id'");
-  if ($chj->num_rows != 0) {
-    if($c->query("DELETE FROM category WHERE id = '$id'")){
-          echo "<script>
+
+$country = new Country(0);
+if(isset($_POST['add_country'])) {
+  $statusMsg = "";
+  $backlink = ' <a href="./">Go back</a>';
+  $id = uniqid().time();
+  $name = mysqli_real_escape_string($c,$_POST['name']);
+  $code = mysqli_real_escape_string($c,$_POST['code']);
+  if(empty($name)) {
+     $statusMsg = "Counrty name is required.";
+
+  }elseif (empty($code)) {
+     $statusMsg = "Counrty code is required";
+  }
+  else {
+    if($country->AddCountry($name,$code)) {
+      echo "<script>
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 9000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: '".ucwords($name)." have been added to projects successfully.'
+        })
+      </script>";
+  }
+  else{
+       $statusMsg = "Country already exists.";
+  }
+  }
+  if ($statusMsg != "") {
+      echo "<script>
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -86,184 +86,157 @@ if (isset($_GET['q'])) {
             })
 
             Toast.fire({
-              icon: 'success',
-              title: 'Deleted successfully.'
-            })
-          </script>";
-    }
-  }
-}
-
-
-
-if (isset($_POST['addc'])) {
-  $cat = strtolower(trim(mysqli_real_escape_string($c,$_POST['cat'])));
-  $timer = time();
-  $sq = $c->query("SELECT * FROM category WHERE name='$cat'");
-  if ($sq->num_rows == 0) {
-    if($cat != "") {
-      if ($c->query("INSERT INTO category (name,timer)VALUES('$cat','$timer')")) {
-        echo "<script>
-              const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-
-              Toast.fire({
-                icon: 'success',
-                title: 'Category added successfully'
-              })
-            </script>";
-      }
-      else {
-         echo "<script>
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
-
-                Toast.fire({
-                  icon: 'error',
-                  title: 'Category can\'t be added, Please try again.'
-                })
-              </script>";
-      }
-    }
-    else {
-         echo "<script>
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
-
-                Toast.fire({
-                  icon: 'error',
-                  title: 'Unknown Category Name.'
-                })
-              </script>";
-      }
-  }
-  else {
-    echo "<script>
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
-
-            Toast.fire({
               icon: 'error',
-              title: 'Category already exists.'
+              title: '".$statusMsg."'
             })
           </script>";
+    }
+}else if(isset($_GET['q'])) {
+  $id = $_GET['q'];
+  $chj = $c->query("SELECT * FROM tableoperatingcountrylist WHERE country_id = '$id'");
+  if ($chj->num_rows != 0) {
+  if($c->query("DELETE FROM tableoperatingcountrylist WHERE country_id = '$id'")){
+        echo "<script>
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 9000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Deleted successfully.'
+          })
+        </script>";
+  }
   }
 }
-
-
+if (isset($_POST['disable'])) { // checking if the disabled is called or the button is pressed
+  $country->DisableCountryList();
+}
+if (isset($_POST['enable'])) { // checking if the Enabled is called or the button is pressed
+  $country->EnableCountryList();
+}
 ?>
-
   <div class="wrapper ">
     <?php
-    include_once 'nav.php';
+    include_once 'nav.php'; // padding: 34.7%;
     ?>
     <div class="main-panel">
       <?php include_once 'na.php'; ?>
-      <div class="content">
+       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-warning">
-                  <h4 class="card-title">Add Categories</h4>
-                  <p class="card-category">The Category name must be unique</p>
+            <div class="col-md-8">
+              <div class="card unclass">
+                <div class="cssload-thecube">
+                  <div class="cssload-cube cssload-c1"></div>
+                  <div class="cssload-cube cssload-c2"></div>
+                  <div class="cssload-cube cssload-c4"></div>
+                  <div class="cssload-cube cssload-c3"></div>
                 </div>
-                <div class="card-body">
-                  <form method="post">                    
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Category Name</label>
-                          <input type="text" name="cat" class="form-control">
+                <div class="carder">
+                  <div class="card-header card-header-warning">
+                    <h4 class="card-title">Add Country</h4>
+                    <p class="card-category">Be sure before adding a country</p>
+                  </div>
+                  <div class="card-body" style="padding-top: 30px;padding-left: 30px;padding-right: 30px;">
+                    <form method="post"  enctype="multipart/form-data">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <select class="form-control selectpicker temp1" name="name" data-style="btn btn-link">
+                              <?php
+                                echo $country->get_countries_options();
+                              ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <select class="form-control selectpicker temp1" name="code" data-style="btn btn-link">
+                              <?php
+                              echo $country->get_countries_code_options();
+                              ?>
+                            </select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                   
-                    <button type="submit" name="addc" class="btn btn-warning pull-right" >Add Category</button>
-                    <div class="clearfix"></div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-8">
-              <div class="container">
-              <div class="card card-profile">
-                <div class="card-body" style="overflow-x: auto;">
-                  <h6 class="card-category text-gray">What users see in the website</h6>
-                  <hr />
-                  <div class="owl-carousel pro-list1">
-                  <a class="item filter-button itemer" data-filter="">All</a>
-                    <?php
-                    $sd = $c->query("SELECT * FROM category");
-                    while ($ex = $sd->fetch_array()) {
-                      ?>
-                      <a class="item filter-button itemer" data-filter="<?php echo $ex['name']; ?>"><?php echo ucwords($ex['name']); ?></a>
-                      <?php
-                    }
-                    ?>
+                      <button type="submit" name="add_country" class="btn btn-warning pull-right add_pro">Add Country</button>
+                      <div class="clearfix"></div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
             <div class="col-md-4">
-              <div class="card card-profile">
+              <div class="card ">
                 <div class="card-body">
-                  <h6 class="card-category text-gray">Recently Added Categories</h6>
+                  <h6 class="card-category text-gray text-center">Recently Added Projects </h6>
                   <hr />
-
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <tr><th>Category</th><th>Time</th></tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                        $ds = $c->query("SELECT * FROM category ORDER BY id DESC");
-                        while ($exe = $ds->fetch_array()) {
+                  <?php
+                  $con = $c->query("SELECT * FROM tableoperatingcountrylist ORDER BY id DESC ");
+                  if($con->num_rows > 0) {
+                    echo '
+                      <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Country</th>
+                                <th>Code</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    ';
+                        $counter = 0;
+                        while ($exe = $con->fetch_array()) {
+                          $counter++;
                           ?>
-                          <tr><td class="dodo"><div class="con-cat"><a href="category.php?q=<?php echo $exe['id'] ?>" class="untext btn btn-block btn-outline-warning text-white"><i class="material-icons">delete</i> Delete</a></div><?php echo ucwords($exe['name']); ?></td><td><?php echo ago('@'.$exe['timer']); ?></td></tr>
+                          <tr>
+                            <td class="text-center"><?php echo $counter?></td>
+                            <td><?php echo $exe['country'] ?></td>
+                            <td><?php echo $exe['short'] ?></td>
+                            <td><?php echo $exe['status'] ? "ON" : "OFF"; ?></td>
+                            <td class="td-actions text-right">
+                                <a href="editcountry?q=<?php echo $exe['country_id'] ?>" class="btn btn-success">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <a href="category?q=<?php echo $exe['country_id'] ?>" class="btn btn-danger">
+                                    <i class="material-icons">close</i>
+                                </a>
+                            </td>
+                        </tr>
                           <?php
                         }
-                        ?>
+                    echo '
                       </tbody>
-                    </table>
+                    </table>';
+                  }
+                  else {
+                      echo '<h6 class="card-category text-muted text-center pt-5 pb-5"><i class="material-icons" style="top: 4px;padding-right: 4px;font-size: 19px;">warning</i> No Result</h6>';
+                  }
+                  ?>
+                  <form method="post">
+                    <?php
+                      if($country->CountryShowToggle()){
+                        ?>
+                          <button type="submit" name="disable" class="btn btn-block btn-dark">Disable App Country</button>
+                        <?php
+                      }else {
+                        ?>
+                          <button type="submit" name="enable" class="btn btn-block btn-success">Enable App country</button>
+                        <?php
+                      }
+                    ?>
+                  </form>
                   
                 </div>
               </div>
@@ -271,77 +244,22 @@ if (isset($_POST['addc'])) {
           </div>
         </div>
       </div>
+
     </div>
-
-<style>
-  .untext {
-    height: 80%;
-  }
-  .dodo:hover .con-cat {
-    visibility: visible;
-    opacity: 1;
-  }
-  .con-cat {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgb(13, 13, 13, 0.2);
-    color: #fff;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity .2s, visibility .2s;
-  }
-  a.item {
-    text-align: center;
-    color: #979797 !important;
-    text-decoration: none;
-  }
-  a.item:hover {
-    transition: all 0.4s ease;
-  }
-  .pro-list1 {
-    margin-left: auto;
-    margin-right: auto;
-    width: 900px;
-    color: #979797;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .pro-list1 > div > div > div {
-    text-align: center;
-    border-right: 1px solid #979797;
-  }
-  .pro-list1 > div > div > div:last-child {
-    text-align: center;
-    border: none;
-  }
-</style>
-  <script src="assets/js/core/jquery.min.js"></script>
-  <script src="../owl/owl.carousel.min.js"></script>
-  <script src="../unpkg/aos.js"></script>
-  <script src="assets/js/core/popper.min.js"></script>
+<?php include 'includes/script.php' ?>
   <script src="assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script src="assets/js/plugins/moment.min.js"></script>
-  <script src="assets/js/plugins/jquery.validate.min.js"></script>
-  <script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/js/bootstrap-select.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.js"></script>
-  <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
-  <script src="assets/js/plugins/fullcalendar.min.js"></script>
-  <script src="assets/js/plugins/jquery-jvectormap.js"></script>
-  <script src="assets/js/plugins/nouislider.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-  <script src="assets/js/plugins/arrive.min.js"></script>
-  <script src="assets/js/plugins/chartist.min.js"></script>
-  <script src="assets/js/plugins/bootstrap-notify.js"></script>
-  <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <script src="../index.js"></script>
 
+
+<script>
+  $(document).ready(function() {
+    $(".cssload-thecube").hide();
+    $(".add_pro").click(function () {
+      $(".carder").hide();
+      $(".unclass").css("padding","34.4%");
+      $(".cssload-thecube").css("display","block");
+    });
+  });
+</script>
 </body>
 
 </html>
