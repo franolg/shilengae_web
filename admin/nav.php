@@ -13,22 +13,22 @@ $url = $_SERVER['PHP_SELF'];
           <p>Dashboard</p>
         </a>
       </li>
-      <li class="nav-item <?php $rev = substr($url,7) == 'projects.php' ? 'active' : '' ; echo $rev; ?>">
-        <a class="nav-link" href="./projects.php">
+      <li class="nav-item <?php $rev = substr($url,7) == 'user' ? 'active' : '' ; echo $rev; ?>">
+        <a class="nav-link" href="./user">
           <i class="material-icons">person</i>
-          <p>Projects</p>
+          <p>User</p>
         </a>
       </li>
-      <li class="nav-item <?php $rev = substr($url,7) == 'category.php' ? 'active' : '' ; echo $rev; ?>">
-        <a class="nav-link" href="./category.php">
-          <i class="material-icons">category</i>
-          <p>Categories</p>
+      <li class="nav-item <?php $rev = substr($url,7) == 'country' ? 'active' : '' ; echo $rev; ?>">
+        <a class="nav-link" href="./country">
+          <i class="material-icons">flag</i>
+          <p>Countries</p>
         </a>
       </li>
-      <li class="nav-item <?php $rev = substr($url,7) == 'projects_photo.php' ? 'active' : '' ; echo $rev; ?>">
-        <a class="nav-link" href="./projects_photo.php">
+      <li class="nav-item <?php $rev = substr($url,7) == 'termandcondition' ? 'active' : '' ; echo $rev; ?>">
+        <a class="nav-link" href="./termandcondition">
           <i class="material-icons">photo_size_select_actual</i>
-          <p>Projects Images</p>
+          <p>Terms And Condition</p>
         </a>
       </li>
       <li class="nav-item <?php $rev = substr($url,7) == 'change.php' ? 'active' : '' ; echo $rev; ?>">
@@ -37,12 +37,7 @@ $url = $_SERVER['PHP_SELF'];
           <p>Change Password</p>
         </a>
       </li>
-      <li class="nav-item <?php $rev = substr($url,7) == 'support.php' ? 'active' : '' ; echo $rev; ?>">
-        <a class="nav-link" href="./support.php">
-          <i class="material-icons">contact_support</i>
-          <p>Support</p>
-        </a>
-      </li>
+     
       <li class="nav-item <?php $rev = substr($url,7) == 'logout.php?logout' ? 'active' : '' ; echo $rev; ?>">
         <a class="nav-link" href="./logout.php?logout">
           <i class="material-icons">power_settings_new</i>

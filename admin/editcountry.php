@@ -40,10 +40,10 @@ $exe = $sqq->fetch_array();
 if(isset($_POST['edit_country'])) {
   $sqq1= $c->query("SELECT * FROM tableoperatingcountrylist WHERE country_id='$id'");
   $exo1 = $sqq1->fetch_array();
-  $userid = $exo1['country_id'];
+  $coid = $exo1['country_id'];
   $name = mysqli_real_escape_string($c,$_POST['name']);
   $code = mysqli_real_escape_string($c,$_POST['code']);
-  if($c->query("UPDATE tableoperatingcountrylist SET country = '$name' ,short ='$code' WHERE country_id='$userid'")) {
+  if($c->query("UPDATE tableoperatingcountrylist SET country = '$name' ,short ='$code' WHERE country_id='$coid'")) {
       ?>
       <script>
         const Toast = Swal.mixin({
@@ -60,7 +60,7 @@ if(isset($_POST['edit_country'])) {
 
         Toast.fire({
           icon: 'success',
-          title: '<?php echo $first_name; ?> has been edited successfully.'
+          title:  'Country has been edited successfully.'
         })
       </script>
       <?php
