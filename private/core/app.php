@@ -8,9 +8,9 @@ class App {
 		$adc = $c->query("SELECT * FROM tablepolicies WHERE SelectedCountry = '$lang' AND flag = 1"); // getting user with the same id
 		$exe = $adc->fetch_array();
 		if($adc->num_rows) {
-        	return array('success' => 1,'statuscode' => 200,"msg" => $exe['content']);;
+        	return array('success' => 1,'statuscode' => 200,"msg" => $exe['content']);
 		}else {
-        	return array('success' => 0,'statuscode' => 400,"msg" => "Not Available");;
+        	return array('success' => 0,'statuscode' => 400,"msg" => "Not Available");
 		}
 	}
 	public function addTerm($term,$lang="EN") {
