@@ -40,7 +40,6 @@ class Users {
 		$c = $db->getc();
 		$cog = new Cog(); // getting instance of cog class. 
 		if(!$facebook) {
-			echo "hehehe";
 				$userid = uniqid()."/".time();
 				$firstname = $cog->sql_prep($firstname);
 				$lastname = $cog->sql_prep($lastname);

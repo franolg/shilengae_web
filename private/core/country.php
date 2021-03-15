@@ -1,9 +1,9 @@
 <?php 
-
 class Country {
 	public $name;
 	public $short;
 	public $api;
+
 
 	function __construct($api = 1) { 
 		$this->api = $api;
