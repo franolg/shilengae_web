@@ -5,7 +5,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	print("Sorry, you need proper credentials");
 	exit;
 }else {
-	if ($_SERVER['PHP_AUTH_USER'] == 'mike' && $_SERVER['PHP_AUTH_PW'] == '1234') {
+	if ($_SERVER['PHP_AUTH_USER'] == 'SHAPIUSER' && $_SERVER['PHP_AUTH_PW'] == '02032198334276') {
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json");
 		header("Access-Control-Allow-Methods: POST");
@@ -33,7 +33,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 							$password = new Password($mobile,$new_password,$code);
 							if ($password->isPasswordValid()) {
 								if($password->changePassword()){
-									$msg = array('success' => 1,'statuscode' => 200,"msg" => $success); // setting success message
+									$msg = array('success' => 1,'statuscode' => 200,"msg" => $success,"su" => "Registered Successfully"); // setting success message
 								}else {
 									$msg = array('success' => 0,'statuscode' => 400,"msg" => $error_7); // setting error 3
 								}

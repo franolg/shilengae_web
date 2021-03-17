@@ -38,18 +38,13 @@ class Password {
 		}
 	}
 
-	public function CheckME($email) {
+	public function CheckME() {
 		$db = Database::getInstance();
 		$c = $db->getc();
 		$cog = new Cog();
 		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."' AND calling_code = '".$cog->sql_prep($this->code)."'");
 		if ($qur->num_rows == 0) {
-			$qur = $c->query("SELECT * FROM tableusers WHERE email = '".$cog->sql_prep($email)."'");
-			if ($qur->num_rows == 0) {
-				return array('success' => 1,'statuscode' => 200,"msg" => "Good to go"); // setting success
-			}else {
-				return array('success' => 0,'statuscode' => 400,"msg" => "Email address already exists"); // setting error 1
-			}
+			return array('success' => 1,'statuscode' => 200,"msg" => "Good to go"); // setting success
 		}else {
 			return array('success' => 0,'statuscode' => 400,"msg" => "Mobile number already exists"); // setting error 1
 		}

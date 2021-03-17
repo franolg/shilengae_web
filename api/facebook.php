@@ -5,7 +5,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	print("Sorry, you need proper credentials");
 	exit;
 }else {
-	if ($_SERVER['PHP_AUTH_USER'] == 'mike' && $_SERVER['PHP_AUTH_PW'] == '1234') {
+	if ($_SERVER['PHP_AUTH_USER'] == 'SHAPIUSER' && $_SERVER['PHP_AUTH_PW'] == '02032198334276') {
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json");
 		header("Access-Control-Allow-Methods: POST");
@@ -26,7 +26,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 						$email = $cog->u($_POST['email']);
 						$img = $cog->u($_POST['img']);
 						$fb = new Users();
-						$msg = $fb->addUser($firstname,$lastname,$email,"","","","","",true,$img);
+						$msg = $fb->addUser($firstname,$lastname,$email,"","","","","","","",true,$img);
 					}else {
 						$msg = array('success' => 0,'statuscode' => 400,"msg" => $error_4); // setting error 4
 					}

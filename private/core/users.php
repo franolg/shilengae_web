@@ -35,7 +35,7 @@ class Users {
         $result = $exe == 0 ? false : true;
         return $result;
 	}
-	public function addUser($firstname = "",$lastname = "",$email = "",$mobile = "",$password = "",$country = "",$callingcode = "",$language = "",$facebook = false,$img = "") {
+	public function addUser($firstname = "",$lastname = "",$email = "",$mobile = "",$password = "",$country = "",$callingcode = "",$language = "",$business = "",$company = "",$facebook = false,$img = "") {
 		$db = Database::getInstance(); // getting instance of the database.
 		$c = $db->getc();
 		$cog = new Cog(); // getting instance of cog class. 
@@ -49,24 +49,22 @@ class Users {
 				$country = $cog->sql_prep($country);
 				$callingcode = $cog->sql_prep($callingcode);
 				$language = $cog->sql_prep($language);
+				$business = $cog->sql_prep($business);
+				$company = $cog->sql_prep($company);
 				$timer = time();
 				if(!$this->mobileExist($mobile)) {
-					if(!$this->emailExist($email)) {
-						if($c->query("INSERT INTO tableusers (user_id,first_name,last_name,email,mobile,password,country,calling_code,language,joined) VALUES ('$userid','$firstname','$lastname','$email','$mobile','$password','$country','$callingcode','$language','$timer')")){
+						if($c->query("INSERT INTO tableusers (user_id,first_name,last_name,email,mobile,password,country,calling_code,language,business,company,joined) VALUES ('$userid','$firstname','$lastname','$email','$mobile','$password','$country','$callingcode','$language','$business','$company','$timer')")){
 							return array('success' => 1,'statuscode' => 200,"msg" => "Registered Successfully");
 						}else {
 							return array('success' => 0,'statuscode' => 400,"msg" => "Unable to register");
 						}
-					}else {
-						return array('success' => 0,'statuscode' => 400,"msg" => "Email address already exists");
-					}
 				}else {
 					return array('success' => 0,'statuscode' => 400,"msg" => "Mobile number already exists");
 				}
 		}else {
 			$userid = uniqid()."/".time();	
 			$firstname = $cog->sql_prep($firstname);	
-			$lastname = $cog->sql_prep($lastname);	
+			$lastname = $cog->sql_prep($lastname);
 			$email = $cog->sql_prep(urldecode($email));	
 			$img = $cog->sql_prep(urldecode($img));
 			$timer = time();

@@ -5,7 +5,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	print("Sorry, you need proper credentials");
 	exit;
 }else {
-	if ($_SERVER['PHP_AUTH_USER'] == 'mike' && $_SERVER['PHP_AUTH_PW'] == '1234') {
+	if ($_SERVER['PHP_AUTH_USER'] == 'SHAPIUSER' && $_SERVER['PHP_AUTH_PW'] == '02032198334276') {
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json");
 		header("Access-Control-Allow-Methods: POST");
