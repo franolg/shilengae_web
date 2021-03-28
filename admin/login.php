@@ -1,11 +1,5 @@
 <?php
-session_start();
-ob_start();
-
 include '../private/connect.php'; // including every class from the root/private/connect.php.
-
-$db = Database::getInstance();
-$c = $db->getc();
 
 
 ?>
@@ -32,40 +26,14 @@ $c = $db->getc();
 </head>
 <body>
 <?php
-// echo password_hash("Password", PASSWORD_BCRYPT);
+// password_hash("Password", PASSWORD_BCRYPT);
 if (isset($_POST['login'])) {
-	$username = trim(mysqli_real_escape_string($c,$_POST['username']));
-	$password = trim(mysqli_real_escape_string($c,$_POST['password']));
+	$cog = new Cog();
+	$username = trim($cog->sql_prep($_POST['username']));
+	$password = trim($cog->sql_prep($_POST['password']));
 
-	$sql = $c->query("SELECT * FROM tableportalusers WHERE username ='$username'");
-    $num = $sql->num_rows;
-    $exe = $sql->fetch_array();
-    if ($num > 0 && password_verify($password, $exe['password'])) {
-      $_SESSION['add'] = $exe['admin_id'];
-      header('Location: index.php');
-    }
-    else {
-      ?>
-		<script>
-	        const Toast = Swal.mixin({
-	          toast: true,
-	          position: 'top-end',
-	          showConfirmButton: false,
-	          timer: 9000,
-	          timerProgressBar: true,
-	          onOpen: (toast) => {
-	            toast.addEventListener('mouseenter', Swal.stopTimer)
-	            toast.addEventListener('mouseleave', Swal.resumeTimer)
-	          }
-	        })
-
-	        Toast.fire({
-	          icon: 'error',
-	          title: 'Username or password not correct.'
-	        })
-	    </script>
-      <?php
-    }
+	$login = new Login();
+	$login->LogUser($username,$password);
 }
 ?>
 	<div class="limiter">

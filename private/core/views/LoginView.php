@@ -1,31 +1,15 @@
 <?php
-class Login {
 
-	public $mobile;
-	public $password;
-	public $calling_code;
-	public $app_country;
-	public $req_type;
-
-
-	public function __construct($mobile,$password,$calling_code,$req_type) {
-		$this->mobile = $mobile;
-		$this->password = $password;
-		$this->calling_code = $calling_code;
-		$this->req_type = $req_type;
-	}
-
-
-	public function auth() {
-		$db = Database::getInstance();
-		$c = $db->getc();
-		$cog = new Cog();
-		$qur = $c->query("SELECT * FROM tableusers WHERE mobile = '".$cog->sql_prep($this->mobile)."' AND calling_code = '".$cog->sql_prep($this->calling_code)."'");
-		if ($qur->num_rows > 0) {
-			$exe = $qur->fetch_array();
-				if ($this->password == $exe['password']) {
-					if ($this->req_type == 'api') {
-						return array(
+/**
+ * Login View
+ */
+class LoginView extends User {
+	
+	public function LogUser($calling_code,$mobile,$password) {
+		$exe = $this->Auth($mobile,$calling_code);
+		if (!empty($exe)) {
+			if(password_verify($password, $exe['password'])) {
+				return array(
 							'success' => 1,
 							'statuscode' => 200,
 							'msg' => 'Login Successfully!',
@@ -62,19 +46,13 @@ class Login {
 								'modified_at' => (int) $exe['modified_at'],
 								),
 						);
-					}
-					else {
-						return 'Login Successfully!';
-					}
-				}
-				else {
-					return array(
-						'success' => 0,
-						'statuscode' => 400,
-						'msg' => 'Sorry, this password is incorrect!',
-					);
-				}
-			
+			}else {
+				return array(
+					'success' => 0,
+					'statuscode' => 400,
+					'msg' => 'Sorry, this password is incorrect!',
+				);
+			}
 		}else {
 			return array(
 				'success' => 0,
@@ -84,6 +62,35 @@ class Login {
 		}
 	}
 
-	
+	public function LogAdmin($username,$password) {
+		$exe = $this->AdminAuth($this->usernamer);
+		if (!empty($exe)) {
+			if(password_verify($this->password, $exe['password'])) {
+				$_SESSION['add'] = $exe['admin_id'];
+				$send = new Location();
+				$send->to("home");
+			}else {
+				?>
+				<script>
+			        const Toast = Swal.mixin({
+			          toast: true,
+			          position: 'top-end',
+			          showConfirmButton: false,
+			          timer: 9000,
+			          timerProgressBar: true,
+			          onOpen: (toast) => {
+			            toast.addEventListener('mouseenter', Swal.stopTimer)
+			            toast.addEventListener('mouseleave', Swal.resumeTimer)
+			          }
+			        })
+
+			        Toast.fire({
+			          icon: 'error',
+			          title: 'Username or password not correct.'
+			        })
+			    </script>
+				<?php
+			}
+		}
+	}
 }
-?>

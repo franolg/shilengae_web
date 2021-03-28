@@ -5,12 +5,13 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	print("Sorry, you need proper credentials");
 	exit;
 }else {
-	if ($_SERVER['PHP_AUTH_USER'] == 'SHAPIUSER' && $_SERVER['PHP_AUTH_PW'] == '02032198334276') {
+	include '../private/connect.php'; // including every class from the root/private/connect.php.
+	$env = new Envs();
+	if ($_SERVER['PHP_AUTH_USER'] == $env->auth_user && $_SERVER['PHP_AUTH_PW'] == $env->auth_pass) {
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json");
 		header("Access-Control-Allow-Methods: POST");
 		header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With");
-		include '../private/connect.php'; // including every class from the root/private/connect.php.
 		$error_1 = "First Name is required"; // error text 1  
 		$error_2 = "Last Name is required"; // error text 2
 		$error_3 = "Mobile is required"; // error text 4
@@ -38,8 +39,8 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 												$lan = $cog->u($_POST['lan']); // getting language 
 												$business = $cog->u($_POST['business']);
 												$company = ucwords($cog->u($_POST['company']));
-												$reg = new Users();
-												$msg = $reg->addUser($fn,$ln,"",$mobile,$password,$country,$ccode,$lan,$business,$company);
+												$reg = new UserController();
+												$msg = $reg->addUser($fn,$ln,$mobile,$password,$country,$ccode,$lan,$business,$company);
 											}
 											else {
 												$msg = array('success' => 0,'statuscode' => 400,"msg" => $error_8); // setting error 8

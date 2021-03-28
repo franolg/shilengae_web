@@ -5,13 +5,14 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	print("Sorry, you need proper credentials");
 	exit;
 }else {
-	if ($_SERVER['PHP_AUTH_USER'] == 'SHAPIUSER' && $_SERVER['PHP_AUTH_PW'] == '02032198334276') {
+	include '../private/connect.php'; // including every class from the root/private/connect.php.
+	$env = new Envs();
+	if ($_SERVER['PHP_AUTH_USER'] == $env->auth_user && $_SERVER['PHP_AUTH_PW'] == $env->auth_pass) {
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json");
 		header("Access-Control-Allow-Methods: POST");
 		header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With");
-		include '../private/connect.php'; // including every class from the root/private/connect.php.
-
+		
 		$error_1 = "Mobile is required."; // error text 1  
 		$error_2 = "New Password is required."; // error text 2
 		$error_3 = "Confirm Password is required."; // error text 3 
@@ -30,9 +31,10 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 						$mobile = $cog->u($_POST['mobile']);
 						$code = $cog->u($_POST['code']);
 						if($new_password == $confirm_password){
-							$password = new Password($mobile,$new_password,$code);
-							if ($password->isPasswordValid()) {
-								if($password->changePassword()){
+							$userview = new UserView();
+							if ($userview->isPasswordValid($confirm_password)) {
+								$user = new UserController();
+								if($user->ChangePass($code,$mobile,$confirm_password)){
 									$msg = array('success' => 1,'statuscode' => 200,"msg" => $success,"su" => "Registered Successfully"); // setting success message
 								}else {
 									$msg = array('success' => 0,'statuscode' => 400,"msg" => $error_7); // setting error 3
