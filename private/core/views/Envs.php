@@ -17,7 +17,7 @@ class Envs {
 		$dotenv = Dotenv::createImmutable(APP_ROOT);
 		$dotenv->load();
 
-		$this->host =  $_ENV['DB_HOST'];
+		$this->host = $_ENV['DB_HOST'];
 		$this->user = $_ENV['DB_USER'];
 		$this->password = $_ENV['DB_PASSWORD'];
 		$this->dbName = $_ENV['DB_NAME'];
