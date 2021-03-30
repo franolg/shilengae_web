@@ -2,12 +2,9 @@
 
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
+$admin = new AdminView();
 
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
@@ -28,40 +25,40 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
 <?php
 include 'php.php';
 ?>
-  <div class="wrapper ">
-    <?php
-    include_once 'nav.php';
-    ?>
-    <div class="main-panel">
-      <?php include_once 'na.php'; ?>
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">storage</i>
-                  </div>
-                  <p class="card-category">Used Space</p>
-                  <h3 class="card-title"><?php echo formatBytes($totalSize); ?></h3>
+<div class="wrapper ">
+  <?php
+  include_once 'nav.php';
+  ?>
+  <div class="main-panel">
+    <?php include_once 'na.php'; ?>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+              <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">storage</i>
                 </div>
-                <div class="card-footer">
-                  <div class="stats">
-                      <i class="material-icons">memory</i> Website Size 
-                  </div>
+                <p class="card-category">Used Space</p>
+                <h3 class="card-title"><?php echo formatBytes($totalSize); ?></h3>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">memory</i> Website Size 
                 </div>
               </div>
             </div>
-         
           </div>
+       
         </div>
       </div>
-      
     </div>
+    
   </div>
+</div>
 
-  <?php include 'includes/script.php' ?>
+<?php include 'includes/script.php' ?>
 
 </body>
 

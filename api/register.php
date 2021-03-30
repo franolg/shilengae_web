@@ -40,7 +40,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 												$business = $cog->u($_POST['business']);
 												$company = ucwords($cog->u($_POST['company']));
 												$reg = new UserController();
-												$msg = $reg->addUser($fn,$ln,$mobile,$password,$country,$ccode,$lan,$business,$company);
+												$msg = $reg->AddUser($fn,$ln,$mobile,$password,$country,$ccode,$lan,$business,$company);
 											}
 											else {
 												$msg = array('success' => 0,'statuscode' => 400,"msg" => $error_8); // setting error 8

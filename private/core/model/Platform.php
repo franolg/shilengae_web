@@ -15,7 +15,7 @@ class Platform extends Database
         	return [];
 		}
 	}
-	protected function AddTerm($term,$lang="EN") {
+	protected function Add($term,$lang) {
 
 		$adc = $this->c()->prepare("SELECT * FROM tablepolicies WHERE SelectedCountry = '$lang'"); // getting user with the same id
 		$exe = $adc->fetch();
@@ -34,4 +34,34 @@ class Platform extends Database
 			}
 		}
 	}
+
+	protected function Edit($term,$flag,$lang) {
+		$sql = "UPDATE tablepolicies SET content = ? ,flag = ?";
+		$adc = $this->c()->prepare($sql); // getting user with the same id
+		if($adc->execute([$term,$flag])) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	protected function Show($request) {
+		$sql = "SELECT * FROM tablepolicies";
+		$stmt = $this->c()->query($sql);
+		$exe = $stmt->fetch();
+		$result = "";
+		switch ($request) {
+			case 'flag':
+				$result = $exe['flag'];
+				break;
+			case 'content':
+				$result = $exe['content'];
+				break;
+			default:
+				$result = "";
+				break;
+		}
+		return $result;
+	}
+
 }

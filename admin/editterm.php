@@ -2,13 +2,9 @@
 
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
+$admin = new AdminView();
 
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
@@ -16,7 +12,6 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
 $id = @$_GET['q'];
 // $sqq = $c->query("SELECT * FROM tablepolicies WHERE term_id='$id'");
 
-$sqq = $c->query("SELECT * FROM tablepolicies");
 
 // if ($sqq->num_rows == 0) {
    ?> 
@@ -24,7 +19,8 @@ $sqq = $c->query("SELECT * FROM tablepolicies");
   <?php
 // }else {
 if(1==1) {
-$exe = $sqq->fetch_array();
+$app = new AppView();
+$appc = new AppController();
 ?>
           
 <!DOCTYPE html>
@@ -40,13 +36,9 @@ $exe = $sqq->fetch_array();
 <body>
 <?php
 if(isset($_POST['edit_term'])) {
-  $sqq1= $c->query("SELECT * FROM tablepolicies");
-  $exo1 = $sqq1->fetch_array();
-  $termid = $exo1['term_id'];
-  $term = mysqli_real_escape_string($c,$_POST['term']);
-  $flag = mysqli_real_escape_string($c,$_POST['flag']);
-
-  if($c->query("UPDATE tablepolicies SET content = '$term' ,flag ='$flag' WHERE term_id='$termid'")) {
+  $term = $_POST['term'];
+  $flag = $_POST['flag'];
+  if($appc->EditTerm($term,$flag)) {
       ?>
       <script>
         const Toast = Swal.mixin({
@@ -111,10 +103,10 @@ if(isset($_POST['edit_term'])) {
                   
                   <form method="post"  enctype="multipart/form-data">
                     <div class="row">
-                      <div class="col-md-12">
+                      <div class="col-md-12 pt-2">
                         <div class="form-group">
                           <label class="bmd-label-floating">Flag</label>
-                          <input type="text" name="flag" class="form-control" value="<?php echo $exe['flag']; ?>">
+                          <input type="text" name="flag" class="form-control" value="<?php echo $app->ShowTerms('flag'); ?>">
                         </div>
                       </div>
                     </div>
@@ -124,7 +116,7 @@ if(isset($_POST['edit_term'])) {
                           <label>Terms and Conditions</label>
                           <div class="form-group">
                           <!--<label class="bmd-label-floating">.</label> -->
-                          <textarea class="form-control" name="term" rows="5"><?php echo trim($exe['content']); ?></textarea>
+                          <textarea class="form-control" name="term" rows="5"><?php echo trim($app->ShowTerms('content')); ?></textarea>
                           </div>
                         </div>
                       </div>

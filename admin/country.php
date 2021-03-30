@@ -1,13 +1,9 @@
 <?php
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
+$admin = new AdminView();
 
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
@@ -29,44 +25,43 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
 
 </style>
 <?php
-
-$country = new Country(0);
+$countryview = new CountryView();
+$country = new CountryController();
 if(isset($_POST['add_country'])) {
   $statusMsg = "";
   $backlink = ' <a href="./">Go back</a>';
   $id = uniqid().time();
-  $name = mysqli_real_escape_string($c,$_POST['name']);
-  $code = mysqli_real_escape_string($c,$_POST['code']);
+  $name = $_POST['name'];
+  $code = $_POST['code'];
   if(empty($name)) {
      $statusMsg = "Counrty name is required.";
-
   }elseif (empty($code)) {
      $statusMsg = "Counrty code is required";
   }
   else {
-    if($country->AddCountry($name,$code)) {
-      echo "<script>
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 9000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+      if($country->AddCountry($name,$code)) {
+        echo "<script>
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 9000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
 
-        Toast.fire({
-          icon: 'success',
-          title: '".ucwords($name)." have been added to projects successfully.'
-        })
-      </script>";
-  }
-  else{
-       $statusMsg = "Country already exists.";
-  }
+          Toast.fire({
+            icon: 'success',
+            title: '".ucwords($name)." have been added to projects successfully.'
+          })
+        </script>";
+    }
+    else{
+         $statusMsg = "Country already exists.";
+    }
   }
   if ($statusMsg != "") {
       echo "<script>
@@ -88,30 +83,11 @@ if(isset($_POST['add_country'])) {
             })
           </script>";
     }
-}else if(isset($_GET['q'])) {
+}
+else if(isset($_GET['q'])) {
   $id = $_GET['q'];
-  $chj = $c->query("SELECT * FROM tableoperatingcountrylist WHERE country_id = '$id'");
-  if ($chj->num_rows != 0) {
-  if($c->query("DELETE FROM tableoperatingcountrylist WHERE country_id = '$id'")){
-        echo "<script>
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 9000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-
-          Toast.fire({
-            icon: 'success',
-            title: 'Deleted successfully.'
-          })
-        </script>";
-  }
+  if ($countryview->checkCountryID($id)) {
+    $country->DeletedCountry($id);
   }
 }
 if (isset($_POST['disable'])) { // checking if the disabled is called or the button is pressed
@@ -121,7 +97,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
   $country->EnableCountryList();
 }
 ?>
-  <div class="wrapper ">
+<div class="wrapper ">
     <?php
     include_once 'nav.php'; // padding: 34.7%;
     ?>
@@ -150,7 +126,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
                           <div class="form-group">
                             <select class="form-control selectpicker temp1" name="name" data-style="btn btn-link">
                               <?php
-                                echo $country->get_countries_options();
+                                echo $countryview->get_countries_options();
                               ?>
                             </select>
                           </div>
@@ -159,7 +135,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
                           <div class="form-group">
                             <select class="form-control selectpicker temp1" name="code" data-style="btn btn-link">
                               <?php
-                              echo $country->get_countries_code_options();
+                              echo $countryview->get_countries_code_options();
                               ?>
                             </select>
                           </div>
@@ -178,8 +154,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
                   <h6 class="card-category text-gray text-center">Recently Added Projects </h6>
                   <hr />
                   <?php
-                  $con = $c->query("SELECT * FROM tableoperatingcountrylist ORDER BY id DESC ");
-                  if($con->num_rows > 0) {
+                  if(!$countryview->CountryEmpty()) {
                     echo '
                       <table class="table">
                         <thead>
@@ -193,26 +168,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
                         </thead>
                         <tbody>
                     ';
-                        $counter = 0;
-                        while ($exe = $con->fetch_array()) {
-                          $counter++;
-                          ?>
-                          <tr>
-                            <td class="text-center"><?php echo $counter?></td>
-                            <td><?php echo $exe['country'] ?></td>
-                            <td><?php echo $exe['short'] ?></td>
-                            <td><?php echo $exe['status'] ? "ON" : "OFF"; ?></td>
-                            <td class="td-actions text-right">
-                                <a href="editcountry?q=<?php echo $exe['country_id'] ?>" class="btn btn-success">
-                                    <i class="material-icons">edit</i>
-                                </a>
-                                <a href="category?q=<?php echo $exe['country_id'] ?>" class="btn btn-danger">
-                                    <i class="material-icons">close</i>
-                                </a>
-                            </td>
-                        </tr>
-                          <?php
-                        }
+                    echo $countryview->DBCountry();
                     echo '
                       </tbody>
                     </table>';
@@ -223,7 +179,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
                   ?>
                   <form method="post">
                     <?php
-                      if($country->CountryShowToggle()){
+                      if($countryview->CountryShowToggle()){
                         ?>
                           <button type="submit" name="disable" class="btn btn-block btn-dark">Disable App Country</button>
                         <?php
@@ -244,9 +200,7 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
 
     </div>
 <?php include 'includes/script.php' ?>
-  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
-
-
+<script src="assets/js/core/bootstrap-material-design.min.js"></script>
 <script>
   $(document).ready(function() {
     $(".cssload-thecube").hide();
@@ -258,5 +212,4 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
   });
 </script>
 </body>
-
 </html>

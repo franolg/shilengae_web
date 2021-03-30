@@ -28,12 +28,11 @@ include '../private/connect.php'; // including every class from the root/private
 <?php
 // password_hash("Password", PASSWORD_BCRYPT);
 if (isset($_POST['login'])) {
-	$cog = new Cog();
-	$username = trim($cog->sql_prep($_POST['username']));
-	$password = trim($cog->sql_prep($_POST['password']));
+	$username = trim($_POST['username']);
+	$password = trim($_POST['password']);
 
-	$login = new Login();
-	$login->LogUser($username,$password);
+	$login = new LoginView();
+	$login->LoginAdmin($username,$password);
 }
 ?>
 	<div class="limiter">

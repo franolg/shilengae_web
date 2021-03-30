@@ -14,4 +14,9 @@ class AppView extends Platform {
         	return array('success' => 0,'statuscode' => 400,"msg" => "Not Available");
 		}
 	}
+	public function ShowTerms($request) {
+		return $this->Show($request);
+	}
+
+	
 }

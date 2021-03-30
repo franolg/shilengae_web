@@ -1,9 +1,6 @@
 <?php
 // include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
-
 function formatBytes($bytes, $precision = 2) { 
     $units = array('<small>B</small>', '<small>KB</small>', '<small>MB</small>', '<small>GB</small>', '<small>TB</small>'); 
 
@@ -26,11 +23,11 @@ foreach ($iterator as $file) {
     $totalSize += $file->getSize();
 }
 
-function numberof($val){
-    global $c;
-    $sq = $c->query("SELECT * FROM $val");
-    $num = $sq->num_rows;
-    return $num;
-}
+// function numberof($val){
+//     global $c;
+//     $sq = $c->query("SELECT * FROM $val");
+//     $num = $sq->num_rows;
+//     return $num;
+// }
 
 ?>

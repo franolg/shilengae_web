@@ -1,16 +1,14 @@
 <?php
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
-
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+$adminview = new AdminView();
+if(!isset($_SESSION['add']) || !$adminview->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
+
+$admin = new AdminController($_SESSION['add']);
+
 ?>
           
 <!DOCTYPE html>
@@ -43,14 +41,12 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
                 <div class="card-body" style="overflow-x: hidden;">
                   <?php
                     if(isset($_POST['add_pro'])) {
-                        $current = mysqli_real_escape_string($c,$_POST['cp']);
-                        $new = mysqli_real_escape_string($c,$_POST['np']);
-                        $rewrite = mysqli_real_escape_string($c,$_POST['rp']);
-                        $sqad = $c->query("SELECT * FROM tableportalusers WHERE admin_id = '".$_SESSION['add']."'");
-                        $adcon = $sqad->fetch_array();
-                        if(password_verify(trim($current), $adcon['password'])) {
+                        $current = $_POST['cp'];
+                        $new = $_POST['np'];
+                        $rewrite = $_POST['rp'];
+                        if($admin->checkPassword($current)) {
                           if($new == $rewrite){
-                            if($c->query("UPDATE tableportalusers SET password='".password_hash($rewrite, PASSWORD_BCRYPT)."' WHERE admin_id='".$_SESSION['add']."'")) {
+                            if($admin->changePassword($rewrite)) {
                               ?>
                               <script>
                                 const Toast = Swal.mixin({

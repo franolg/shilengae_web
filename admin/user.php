@@ -2,16 +2,12 @@
 
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
-
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+$admin = new AdminView();
+if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
+
 function ago($datetime, $full = false) {
   $now = new DateTime;
   $ago = new DateTime($datetime);
@@ -52,12 +48,14 @@ function ago($datetime, $full = false) {
 </head>
 <body>
 <?php
+$user = new UserController();
+$userview = new UserView();
 if (isset($_GET['q'])) {
   $id = $_GET['q'];
-  $chj = $c->query("SELECT * FROM tableusers WHERE user_id = '$id'");
-  if ($chj->num_rows != 0) {
-    if($c->query("DELETE FROM tableusers WHERE user_id = '$id'")){
-          echo "<script>
+  if ($userview->CheckUserID($id)) {
+    if($user->DeleteUser($id)){
+          ?>
+          <script>
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -74,8 +72,51 @@ if (isset($_GET['q'])) {
               icon: 'success',
               title: 'Deleted successfully.'
             })
-          </script>";
+          </script>
+          <?php
+    } else {
+      ?>
+          <script>
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 9000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Can\'t deleted this user.'
+            })
+          </script>
+          <?php
     }
+  } else {
+      ?>
+      <script>
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 9000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Can\'t find user.'
+        })
+      </script>
+      <?php
   }
 }
 ?>
@@ -96,11 +137,10 @@ if (isset($_GET['q'])) {
                 </div>
                 <div class="card-body">
                   <?php
-                  $inbox = $c->query("SELECT * FROM tableusers ORDER BY id DESC");
-                  if($inbox->num_rows == 0){
+                  if(!$userview->AnyUsers()){
                     ?>
                     <center>
-                      <img class="img-fluid" src="../assets/no-result.jpg" />
+                      <img class="img-fluid" src="./assets/no-result.jpg" />
                     </center>
                     <?php
                     }
@@ -117,30 +157,9 @@ if (isset($_GET['q'])) {
                                   </tr>
                               </thead>
                               <tbody>';
-                      $counter = 0;
-                      while ($exe = $inbox->fetch_array()) {
-                        $counter++
-                        ?>
-                         <tr>
-                            <td class="text-center"><?php echo $counter; ?></td>
-                            <td><?php echo $exe['first_name']." ".$exe['last_name']; ?></td>
-                            <td><?php echo $exe['email']; ?></td>
-                            <td>+<?php echo $exe['calling_code']." ".$exe['mobile']; ?></td>
-                            <td><?php echo $exe['country']; ?></td>
-                            <td class="td-actions text-right">
-                                <a href="edit?q=<?php echo $exe['user_id']; ?>" class="btn btn-success">
-                                    <i class="material-icons">edit</i>
-                                </a>
-                                <a href="projects?q=<?php echo $exe['user_id']; ?>" class="btn btn-danger">
-                                    <i class="material-icons">close</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <?php
-                        } 
+                        echo $userview->UsersTable();
                         echo '</tbody></table>';
                   }
-                  $c->query("UPDATE tableusers SET status='seen'");
                   ?>
                 </div>
               </div>

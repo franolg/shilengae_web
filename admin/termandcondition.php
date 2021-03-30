@@ -2,13 +2,9 @@
 
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
+$admin = new AdminView();
 
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
@@ -31,17 +27,18 @@ if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
 </style>
 <?php
 
-$country = new App();
+$app = new AppController();
+
 if(isset($_POST['add_country'])) {
 $statusMsg = "";
 $backlink = ' <a href="./">Go back</a>';
 $id = uniqid().time();
-$term = mysqli_real_escape_string($c,$_POST['term']);
+$term = $_POST['term'];
 if(empty($term)) {
    $statusMsg = "Terms and Conditions can\'t be empty.";
 }
 else {
-  echo $country->addTerm($term);
+  echo $app->AddTerm($term);
 }
 if ($statusMsg != "") {
     echo "<script>

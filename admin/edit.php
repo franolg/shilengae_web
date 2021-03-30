@@ -2,25 +2,21 @@
 
 include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-$db = Database::getInstance();
-$c = $db->getc();
+$admin = new AdminView();
 
-$ha = @$c->query("SELECT * FROM tableportalusers WHERE admin_id='".$_SESSION['add']."' ");
-$feto = $ha->fetch_array();
-
-if(!isset($_SESSION['add']) || $feto['admin_id'] != $_SESSION['add']){
+if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
+$user = new UserController();
+$userview = new UserView();
 
 $id = @$_GET['q'];
-$sqq = $c->query("SELECT * FROM tableusers WHERE user_id='$id'");
-if ($sqq->num_rows == 0) {
+if (!$userview->CheckUserID($id)) {
   ?>
   No result <a href="index.php">Go Back</a>
   <?php
 }else {
-$exe = $sqq->fetch_array();
 ?>
           
 <!DOCTYPE html>
@@ -29,33 +25,28 @@ $exe = $sqq->fetch_array();
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Edit <?php echo $exe['first_name']." ".$exe['last_name']; ?></title>
+  <title>Edit <?php echo $userview->ShowUser($id,'firstname')." ".$userview->ShowUser($id,'lastname'); ?></title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <?php include 'includes/style.php' ?>
 </head>
 <body>
 <?php
 if(isset($_POST['edit_user'])) {
-  $sqq1= $c->query("SELECT * FROM tableusers WHERE user_id='$id'");
-  $exo1 = $sqq1->fetch_array();
-  $userid = $exo1['user_id'];
-  $first_name = mysqli_real_escape_string($c,$_POST['first_name']);
-  $last_name = mysqli_real_escape_string($c,$_POST['last_name']);
-  $email = mysqli_real_escape_string($c,$_POST['email']);
-  $mobile = mysqli_real_escape_string($c,$_POST['mobile']);
-  $country = mysqli_real_escape_string($c,$_POST['country']);
-  $state = mysqli_real_escape_string($c,$_POST['state']);
-  $city = mysqli_real_escape_string($c,$_POST['city']);
-  $gender = mysqli_real_escape_string($c,$_POST['gender']);
-  $birth = mysqli_real_escape_string($c,$_POST['birth']);
-  $career = mysqli_real_escape_string($c,$_POST['career']);
-  $experience = mysqli_real_escape_string($c,$_POST['experience']);
-  $salary = mysqli_real_escape_string($c,$_POST['salary']);
-  $calling_code = mysqli_real_escape_string($c,$_POST['calling_code']);
-  $business = mysqli_real_escape_string($c,$_POST['business']);
-
-
-  if($c->query("UPDATE tableusers SET first_name = '$first_name',last_name = '$last_name',email = '$email',mobile = '$mobile',country = '$country',state = '$state',city = '$city',gender = '$gender',birth = '$birth',career = '$career',experience = '$experience',salary = '$salary',calling_code = '$calling_code',business = '$business' WHERE user_id='$userid'")) {
+  $firstname = $_POST['first_name'];
+  $lastname = $_POST['last_name'];
+  $email = $_POST['email'];
+  $mobile = $_POST['mobile'];
+  $country = $_POST['country'];
+  $state = $_POST['state'];
+  $city = $_POST['city'];
+  $gender = $_POST['gender'];
+  $birth = $_POST['birth'];
+  $career = $_POST['career'];
+  $experience = $_POST['experience'];
+  $salary = $_POST['salary'];
+  $callingcode = $_POST['calling_code'];
+  $business = $_POST['business'];
+  if($user->EditUser($id,$firstname,$lastname,$email,$mobile,$country,$state,$city,$gender,$birth,$career,$experience,$salary,$callingcode,$business)) {
       ?>
       <script>
         const Toast = Swal.mixin({
@@ -72,7 +63,7 @@ if(isset($_POST['edit_user'])) {
 
         Toast.fire({
           icon: 'success',
-          title: '<?php echo $first_name; ?> has been edited successfully.'
+          title: '<?php echo $firstname; ?> has been edited successfully.'
         })
       </script>
       <?php
@@ -113,7 +104,7 @@ if(isset($_POST['edit_user'])) {
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Edit <?php echo ucwords($exe['first_name']); ?></h4>
+                  <h4 class="card-title">Edit <?php echo ucwords($userview->ShowUser($id,'firstname')); ?></h4>
                   <p class="card-category">Be sure before Editing Users</p>
                 </div>
                 <div class="card-body" style="overflow-x: hidden;">
@@ -123,13 +114,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">First Name</label>
-                          <input type="text" name="first_name" class="form-control" value="<?php echo $exe['first_name']; ?>">
+                          <input type="text" name="first_name" class="form-control" value="<?php echo $userview->ShowUser($id,'firstname'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                        <div class="form-group">
                           <label class="bmd-label-floating">Last Name</label>
-                          <input type="text" name="last_name" class="form-control" value="<?php echo $exe['last_name']; ?>">
+                          <input type="text" name="last_name" class="form-control" value="<?php echo $userview->ShowUser($id,'lastname'); ?>">
                         </div>
                       </div>
                     </div>
@@ -137,13 +128,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Email</label>
-                          <input type="text" name="email" class="form-control" value="<?php echo $exe['email']; ?>">
+                          <input type="text" name="email" class="form-control" value="<?php echo $userview->ShowUser($id,'email'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Mobile</label>
-                          <input type="text" name="mobile" class="form-control" value="<?php echo $exe['mobile']; ?>">
+                          <input type="text" name="mobile" class="form-control" value="<?php echo $userview->ShowUser($id,'mobile'); ?>">
                         </div>
                       </div>
                     </div>
@@ -151,13 +142,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Country</label>
-                          <input type="text" name="country" class="form-control" value="<?php echo $exe['country']; ?>">
+                          <input type="text" name="country" class="form-control" value="<?php echo $userview->ShowUser($id,'country'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">State</label>
-                          <input type="text" name="state" class="form-control" value="<?php echo $exe['state']; ?>">
+                          <input type="text" name="state" class="form-control" value="<?php echo $userview->ShowUser($id,'state'); ?>">
                         </div>
                       </div>
                     </div>
@@ -166,13 +157,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">City</label>
-                          <input type="text" name="city" class="form-control" value="<?php echo $exe['city']; ?>">
+                          <input type="text" name="city" class="form-control" value="<?php echo $userview->ShowUser($id,'city'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Gender</label>
-                          <input type="text" name="gender" class="form-control" value="<?php echo $exe['gender']; ?>">
+                          <input type="text" name="gender" class="form-control" value="<?php echo $userview->ShowUser($id,'gender'); ?>">
                         </div>
                       </div>
                     </div>
@@ -181,13 +172,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Birth</label>
-                          <input type="text" name="birth" class="form-control" value="<?php echo $exe['birth']; ?>">
+                          <input type="text" name="birth" class="form-control" value="<?php echo $userview->ShowUser($id,'birth'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Career</label>
-                          <input type="text" name="career" class="form-control" value="<?php echo $exe['career']; ?>">
+                          <input type="text" name="career" class="form-control" value="<?php echo $userview->ShowUser($id,'career'); ?>">
                         </div>
                       </div>
                     </div>
@@ -196,13 +187,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Experience</label>
-                          <input type="text" name="experience" class="form-control" value="<?php echo $exe['experience']; ?>">
+                          <input type="text" name="experience" class="form-control" value="<?php echo $userview->ShowUser($id,'experience'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Salary</label>
-                          <input type="text" name="salary" class="form-control" value="<?php echo $exe['salary']; ?>">
+                          <input type="text" name="salary" class="form-control" value="<?php echo $userview->ShowUser($id,'salary'); ?>">
                         </div>
                       </div>
                     </div>
@@ -210,13 +201,13 @@ if(isset($_POST['edit_user'])) {
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Calling Code</label>
-                          <input type="text" name="calling_code" class="form-control" value="<?php echo $exe['calling_code']; ?>">
+                          <input type="text" name="calling_code" class="form-control" value="<?php echo $userview->ShowUser($id,'code'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Business</label>
-                          <input type="text" name="business" class="form-control" value="<?php echo $exe['business']; ?>">
+                          <input type="text" name="business" class="form-control" value="<?php echo $userview->ShowUser($id,'business'); ?>">
                         </div>
                       </div>
                     </div>
