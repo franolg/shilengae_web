@@ -1,4 +1,4 @@
 <?php
-header("Location: 404");
+header("Location: admin/login");
 exit;
 ?>

@@ -31,8 +31,8 @@ if (isset($_POST['login'])) {
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
 
-	$login = new LoginView();
-	$login->LoginAdmin($username,$password);
+	$login = new AdminView();
+	$login->Login($username,$password);
 }
 ?>
 	<div class="limiter">

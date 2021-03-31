@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2021 at 05:40 PM
+-- Generation Time: Mar 31, 2021 at 04:15 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -109,8 +109,7 @@ CREATE TABLE `tableoperatingcountrylist` (
 
 INSERT INTO `tableoperatingcountrylist` (`id`, `country_id`, `country`, `short`, `status`) VALUES
 (3, '604b209213b50', 'Kenya', 'KE', 1),
-(4, '604b4effe3643', 'Ethiopia', 'ET', 1),
-(5, '604b4f47b8c3d', 'Afghanistan', 'AF', 1);
+(4, '604b4effe3643', 'Ethiopia', 'ET', 1);
 
 -- --------------------------------------------------------
 
@@ -153,7 +152,7 @@ CREATE TABLE `tableportalusers` (
 --
 
 INSERT INTO `tableportalusers` (`id`, `admin_id`, `username`, `password`) VALUES
-(1, '32ed2e3x32e62bxvs53a5r', 'AD', '$2y$10$SgzMy1irYXf2l5CMfpyrEuE5JRyJlOYSOXiU0QwzdtkQ755NJnMWC');
+(1, '32ed2e3x32e62bxvs53a5r', 'AD', '$2y$10$pCsUmMocXDSSUa3NYjxF6uShjJxcDLiGVAH.DSzcoNkLuMt/.gpDy');
 
 -- --------------------------------------------------------
 
@@ -289,7 +288,7 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT for table `tableoperatingcountrylist`
 --
 ALTER TABLE `tableoperatingcountrylist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tablepolicies`
