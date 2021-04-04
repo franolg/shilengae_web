@@ -10,7 +10,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	if ($_SERVER['PHP_AUTH_USER'] == $env->auth_user && $_SERVER['PHP_AUTH_PW'] == $env->auth_pass) {
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json");
-		header("Access-Control-Allow-Methods: POST");
+		header("Access-Control-Allow-Methods: GET");
 		header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With");
 		$cog = new Cog(); //getting instance of the cog class to filter texts.
 		$box = new CountryView(); // getting instance of the country class.

@@ -13,7 +13,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 		header("Access-Control-Allow-Methods: POST");
 		header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With");
 		$error_1 = "First name is required"; // error text 1  
-		$error_2 = "Lasy name address is required"; // error text 2
+		$error_2 = "Last name address is required"; // error text 2
 		$error_3 = "Email address is required"; // error text 3
 		$error_4 = "Facebook image is required"; // error text 4
 		$cog = new Cog(); // getting instance of the cog class to filter texts
