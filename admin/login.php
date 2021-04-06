@@ -20,13 +20,15 @@ include '../private/connect.php'; // including every class from the root/private
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
   	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.js"></script>
 
 </head>
 <body>
 <?php
-// password_hash("Password", PASSWORD_BCRYPT);
+// echo password_hash("Password", PASSWORD_BCRYPT);
 if (isset($_POST['login'])) {
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
@@ -42,6 +44,21 @@ if (isset($_POST['login'])) {
 					<span class="login100-form-title p-b-49">
 						Shilengae
 					</span>
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Role is required">
+						<span class="label-input100">Role</span>
+						<div class="row">
+							<div class="col-md-1">
+								<span class="material-icons-outlined text-center" style="margin-left: 10px;color: #adadad;">groups</span>
+							</div>
+							<div class="col-md-11">
+								<select class="selectpicker w-100" data-style="btn-default p-0 pl-3" style="background-color: #fff !important;padding: 0px !important;">
+									<option>Admin</option>
+									<option disabled>Moderator</option>
+									<option disabled>Account</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
 						<span class="label-input100">Username</span>
 						<input class="input100" type="text" name="username" placeholder="Type your username">
@@ -73,6 +90,11 @@ if (isset($_POST['login'])) {
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 	<script src="vendor/select2/select2.min.js"></script>
 	<script src="vendor/daterangepicker/moment.min.js"></script>
 	<script src="vendor/daterangepicker/daterangepicker.js"></script>

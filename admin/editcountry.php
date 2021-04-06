@@ -15,7 +15,7 @@ $country = new CountryController();
 $id = @$_GET['q'];
 if (!$countryview->checkCountryID($id)) {
   ?>
-  No result <a href="country">Go Back</a>
+  No result <a href="javascript:history.back();">Go Back</a>
   <?php
 }else {
 

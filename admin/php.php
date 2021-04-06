@@ -1,8 +1,12 @@
 <?php
 // include '../private/connect.php'; // including every class from the root/private/connect.php.
 
-function formatBytes($bytes, $precision = 2) { 
-    $units = array('<small>B</small>', '<small>KB</small>', '<small>MB</small>', '<small>GB</small>', '<small>TB</small>'); 
+function formatBytes($bytes,$lang = 'en',$precision = 2) { 
+    if ($lang == 'am') {
+        $units = array('<small>ባይት</small>', '<small>ኪሎባይት</small>', '<small>ሜጋባይት</small>', '<small>ጊጋባይት</small>', '<small>ቴራባይት</small>'); 
+    }else {
+        $units = array('<small>B</small>', '<small>KB</small>', '<small>MB</small>', '<small>GB</small>', '<small>TB</small>');         
+    }
 
     $bytes = max($bytes, 0); 
     $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
@@ -11,7 +15,6 @@ function formatBytes($bytes, $precision = 2) {
     // Uncomment one of the following alternatives
     $bytes /= pow(1024, $pow);
     // $bytes /= (1 << (10 * $pow)); 
-
     return round($bytes, $precision) . ' ' . $units[$pow]; 
 } 
 $iterator = new RecursiveIteratorIterator(

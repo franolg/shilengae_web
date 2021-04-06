@@ -8,14 +8,14 @@ if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
-
+$lang = new LocalView($_SESSION['add']);
 // $msg = $c->query("SELECT * FROM message WHERE status='unseen'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Shilengae Admin Panel</title>
+  <title><?php echo $lang->tr('shilengae')." ".$lang->tr('adminpanel'); ?> </title>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -40,12 +40,12 @@ include 'php.php';
                 <div class="card-icon">
                   <i class="material-icons">storage</i>
                 </div>
-                <p class="card-category">Used Space</p>
-                <h3 class="card-title"><?php echo formatBytes($totalSize); ?></h3>
+                <p class="card-category"><?php echo $lang->tr('usedspace'); ?></p>
+                <h3 class="card-title"><?php echo formatBytes($totalSize,$lang->lang()); ?></h3>
               </div>
               <div class="card-footer">
                 <div class="stats">
-                    <i class="material-icons">memory</i> Website Size 
+                    <i class="material-icons">memory</i> <?php echo $lang->tr('websitesize'); ?> 
                 </div>
               </div>
             </div>

@@ -6,7 +6,7 @@ spl_autoload_register('AutoLoader');
 
 define("APP_ROOT", dirname(dirname(__FILE__)));
 define("PRIVATE_PATH", APP_ROOT . "/private");
-
+define('LOCAL', APP_ROOT . "/localization/lang.json");
 
 function AutoLoader($classname) {
 	$dir = PRIVATE_PATH . "/core/views/";

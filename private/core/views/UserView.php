@@ -38,6 +38,7 @@ class UserView extends User {
 	public function ShowUser($id,$request) {
 		return $this->show($id,$request);
 	}
+
 	public function UsersTable() {
 		$exes = $this->ListAll();
 		$counter = 0;
@@ -64,6 +65,9 @@ class UserView extends User {
 		}else {
 			?><tr><td>No Result</td></tr><?php
 		}
+	}
+	public function UsersTablejs() {
+		return $this->ListAlljs();
 	}
 	public function AnyUsers() {
 		return $this->CheckUsers();

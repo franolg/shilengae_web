@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2021 at 04:15 AM
+-- Generation Time: Apr 06, 2021 at 01:31 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -144,15 +144,19 @@ CREATE TABLE `tableportalusers` (
   `id` int(11) NOT NULL,
   `admin_id` text NOT NULL,
   `username` text NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `lan` varchar(4) NOT NULL DEFAULT 'en',
+  `type` text NOT NULL,
+  `added_by` text NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tableportalusers`
 --
 
-INSERT INTO `tableportalusers` (`id`, `admin_id`, `username`, `password`) VALUES
-(1, '32ed2e3x32e62bxvs53a5r', 'AD', '$2y$10$pCsUmMocXDSSUa3NYjxF6uShjJxcDLiGVAH.DSzcoNkLuMt/.gpDy');
+INSERT INTO `tableportalusers` (`id`, `admin_id`, `username`, `password`, `lan`, `type`, `added_by`, `status`) VALUES
+(1, '606bf04c6ca4a-1617686604', 'Ad', '$2y$10$HFHxSwCXqlogNfMJXoBmcuED4XC1M5V6hVJp5klUmSumDqSbanZsS', 'am', 'admin', '', 1);
 
 -- --------------------------------------------------------
 
@@ -195,6 +199,13 @@ CREATE TABLE `tableusers` (
   `joined` int(11) NOT NULL,
   `modified_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tableusers`
+--
+
+INSERT INTO `tableusers` (`id`, `user_id`, `first_name`, `last_name`, `email`, `mobile`, `password`, `country`, `state`, `city`, `gender`, `birth`, `career`, `experience`, `salary`, `profile_image`, `social_profile_image`, `calling_code`, `language`, `verified`, `mverified`, `email_verified_at`, `business`, `company`, `last_online_at`, `last_logged_in`, `login_attempt`, `time_spent`, `last_seen_ip`, `last_device`, `SelectedCountry`, `joined`, `modified_at`) VALUES
+(1, '60660a546dd5c/1617300052', 'Mikiyas', 'Lemlemu', '', '911223344', '$2y$10$I0ablp8kOPRvw8Dgk2pUqOdlanP93BabSXZ/BZbwyJxwZ9lpc4xFi', 'ET', '', '', '', '', '', '', '', '', NULL, 251, 'en-US', 0, 0, 0, 0, '', 0, 0, 0, '', '', '', '', 1617300052, 0);
 
 -- --------------------------------------------------------
 
@@ -254,7 +265,8 @@ ALTER TABLE `tableportalusers`
 -- Indexes for table `tableusers`
 --
 ALTER TABLE `tableusers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `mobile` (`mobile`);
 
 --
 -- Indexes for table `throttling`
@@ -300,13 +312,13 @@ ALTER TABLE `tablepolicies`
 -- AUTO_INCREMENT for table `tableportalusers`
 --
 ALTER TABLE `tableportalusers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tableusers`
 --
 ALTER TABLE `tableusers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `throttling`

@@ -14,6 +14,40 @@ class User extends Database {
 			return [];
 		}
 	}
+	public function ListAlljs() {
+		$return_arr = array();
+		$query = "SELECT * FROM tableusers ORDER BY id";
+		$result = $this->c()->query($query);
+		while($row = $result->fetch()){
+			$first_name = $row['first_name'];
+			$last_name = $row['last_name'];
+			$email = $row['email'];
+			$calling_code = $row['calling_code'];
+			$country = $row['country'];
+			$stm = '<a href="edit?q='.$row['user_id'].'" class="btn btn-success">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a href="user?q='.$row['user_id'].'" class="btn btn-danger">
+                            <i class="material-icons">close</i>
+                        </a>';
+			$user_id = $row['user_id'];
+			$mobile = $row['mobile'];
+		    $return_arr[] = array(
+		    	"id" => $user_id,
+		    	"fn" => $first_name,
+		    	"ln" => $last_name,
+		    	"email" => $email,
+		    	"calling_code" => $calling_code,
+		    	"country" => $country,
+		    	"action" => $stm,
+		    	"mobile" => $mobile
+		    );
+		}
+
+		// Encoding array in JSON format
+		return json_encode($return_arr);
+
+	}
 	protected function Auth($mobile,$code) {
 		$sql = "SELECT * FROM tableusers WHERE mobile = ? AND calling_code = ?";
 		$stmt = $this->c()->prepare($sql);

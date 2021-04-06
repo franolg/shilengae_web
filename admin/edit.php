@@ -14,18 +14,19 @@ $userview = new UserView();
 $id = @$_GET['q'];
 if (!$userview->CheckUserID($id)) {
   ?>
-  No result <a href="index.php">Go Back</a>
+  No result <a href="javascript:history.back();">Go Back</a>
   <?php
 }else {
+
+$lang = new LocalView($_SESSION['add']);
 ?>
           
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Edit <?php echo $userview->ShowUser($id,'firstname')." ".$userview->ShowUser($id,'lastname'); ?></title>
+  <title><?php echo $lang->tr('edit')." ".$userview->ShowUser($id,'firstname')." ".$userview->ShowUser($id,'lastname'); ?></title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <?php include 'includes/style.php' ?>
 </head>
@@ -63,7 +64,7 @@ if(isset($_POST['edit_user'])) {
 
         Toast.fire({
           icon: 'success',
-          title: '<?php echo $firstname; ?> has been edited successfully.'
+          title: '<?php echo $lang->tr('editsuccess'); ?>'
         })
       </script>
       <?php
@@ -85,7 +86,7 @@ if(isset($_POST['edit_user'])) {
 
           Toast.fire({
             icon: 'error',
-            title: 'Unexpected error, please try again.'
+            title: '<?php echo $lang->tr('unexpectederror'); ?>'
           })
         </script>
     <?php
@@ -104,8 +105,8 @@ if(isset($_POST['edit_user'])) {
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Edit <?php echo ucwords($userview->ShowUser($id,'firstname')); ?></h4>
-                  <p class="card-category">Be sure before Editing Users</p>
+                  <h4 class="card-title"><?php echo $lang->tr('edit'); ?></h4>
+                  <p class="card-category"><?php echo $lang->tr('changerpage'); ?></p>
                 </div>
                 <div class="card-body" style="overflow-x: hidden;">
                   
@@ -113,13 +114,13 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">First Name</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('firstname'); ?></label>
                           <input type="text" name="first_name" class="form-control" value="<?php echo $userview->ShowUser($id,'firstname'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                        <div class="form-group">
-                          <label class="bmd-label-floating">Last Name</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('lastname'); ?></label>
                           <input type="text" name="last_name" class="form-control" value="<?php echo $userview->ShowUser($id,'lastname'); ?>">
                         </div>
                       </div>
@@ -127,13 +128,13 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Email</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('email'); ?></label>
                           <input type="text" name="email" class="form-control" value="<?php echo $userview->ShowUser($id,'email'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Mobile</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('mobile'); ?></label>
                           <input type="text" name="mobile" class="form-control" value="<?php echo $userview->ShowUser($id,'mobile'); ?>">
                         </div>
                       </div>
@@ -141,13 +142,13 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Country</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('country'); ?></label>
                           <input type="text" name="country" class="form-control" value="<?php echo $userview->ShowUser($id,'country'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">State</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('state'); ?></label>
                           <input type="text" name="state" class="form-control" value="<?php echo $userview->ShowUser($id,'state'); ?>">
                         </div>
                       </div>
@@ -156,13 +157,13 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">City</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('city'); ?></label>
                           <input type="text" name="city" class="form-control" value="<?php echo $userview->ShowUser($id,'city'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Gender</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('gender'); ?></label>
                           <input type="text" name="gender" class="form-control" value="<?php echo $userview->ShowUser($id,'gender'); ?>">
                         </div>
                       </div>
@@ -171,13 +172,13 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Birth</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('birth'); ?></label>
                           <input type="text" name="birth" class="form-control" value="<?php echo $userview->ShowUser($id,'birth'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Career</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('career'); ?></label>
                           <input type="text" name="career" class="form-control" value="<?php echo $userview->ShowUser($id,'career'); ?>">
                         </div>
                       </div>
@@ -186,13 +187,13 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Experience</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('experience'); ?></label>
                           <input type="text" name="experience" class="form-control" value="<?php echo $userview->ShowUser($id,'experience'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Salary</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('salary'); ?></label>
                           <input type="text" name="salary" class="form-control" value="<?php echo $userview->ShowUser($id,'salary'); ?>">
                         </div>
                       </div>
@@ -200,19 +201,19 @@ if(isset($_POST['edit_user'])) {
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Calling Code</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('callingcode'); ?></label>
                           <input type="text" name="calling_code" class="form-control" value="<?php echo $userview->ShowUser($id,'code'); ?>">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Business</label>
+                          <label class="bmd-label-floating"><?php echo $lang->tr('business'); ?></label>
                           <input type="text" name="business" class="form-control" value="<?php echo $userview->ShowUser($id,'business'); ?>">
                         </div>
                       </div>
                     </div>
 
-                    <button type="submit" name="edit_user" class="btn btn-warning pull-right">Edit User</button>
+                    <button type="submit" name="edit_user" class="btn btn-warning pull-right"><?php echo $lang->tr('edituser'); ?></button>
                     <div class="clearfix"></div>
                   </form>
                 </div>

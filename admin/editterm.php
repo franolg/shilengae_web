@@ -15,7 +15,7 @@ $id = @$_GET['q'];
 
 // if ($sqq->num_rows == 0) {
    ?> 
-   <!-- No result <a href="index.php">Go Back</a> -->
+   <!--  No result <a href="javascript:history.back();">Go Back</a> -->
   <?php
 // }else {
 if(1==1) {

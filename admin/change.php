@@ -8,7 +8,7 @@ if(!isset($_SESSION['add']) || !$adminview->check($_SESSION['add'])){
 }
 
 $admin = new AdminController($_SESSION['add']);
-
+$lang = new LocalView($_SESSION['add']);
 ?>
           
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ $admin = new AdminController($_SESSION['add']);
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Shilengae Admin Panel</title>
+  <title><?php echo $lang->tr('shilengae')." ".$lang->tr('adminpanel'); ?></title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <?php include 'includes/style.php' ?>
 </head>
@@ -35,8 +35,8 @@ $admin = new AdminController($_SESSION['add']);
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Change Password</h4>
-                  <p class="card-category">Be sure on changing the password</p>
+                  <h4 class="card-title"><?php echo $lang->tr('changepassword'); ?></h4>
+                  <p class="card-category"><?php echo $lang->tr('changerpage'); ?></p>
                 </div>
                 <div class="card-body" style="overflow-x: hidden;">
                   <?php
@@ -44,32 +44,77 @@ $admin = new AdminController($_SESSION['add']);
                         $current = $_POST['cp'];
                         $new = $_POST['np'];
                         $rewrite = $_POST['rp'];
-                        if($admin->checkPassword($current)) {
-                          if($new == $rewrite){
-                            if($admin->changePassword($rewrite)) {
-                              ?>
-                              <script>
-                                const Toast = Swal.mixin({
-                                  toast: true,
-                                  position: 'top-end',
-                                  showConfirmButton: false,
-                                  timer: 9000,
-                                  timerProgressBar: true,
-                                  onOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                  }
-                                })
+                        if (!empty($current) && !empty($new)&& !empty($rewrite)) {
+                          if($admin->checkPassword($current)) {
+                            if($new == $rewrite){
+                              if($admin->changePassword($rewrite)) {
+                                ?>
+                                <script>
+                                  const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 9000,
+                                    timerProgressBar: true,
+                                    onOpen: (toast) => {
+                                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                  })
 
-                                Toast.fire({
-                                  icon: 'success',
-                                  title: 'Password have been changed successfully.'
-                                })
-                              </script>
-                              <?php
-                          }
-                          else{
-                            ?>
+                                  Toast.fire({
+                                    icon: 'success',
+                                    title: '<?php echo $lang->tr("passwordsuccess"); ?>'
+                                  })
+                                </script>
+                                <?php
+                              }
+                              else{
+                                ?>
+                                    <script>
+                                      const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 9000,
+                                        timerProgressBar: true,
+                                        onOpen: (toast) => {
+                                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                      })
+
+                                      Toast.fire({
+                                        icon: 'error',
+                                        title: '<?php echo $lang->tr("passworderror"); ?>'
+                                      })
+                                    </script>
+                                <?php
+                              }
+                            }else {
+                               ?>
+                                    <script>
+                                      const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 9000,
+                                        timerProgressBar: true,
+                                        onOpen: (toast) => {
+                                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                      })
+
+                                      Toast.fire({
+                                        icon: 'error',
+                                        title: '<?php echo $lang->tr("passwordunmatch"); ?>'
+                                      })
+                                    </script>
+                                <?php
+                            }
+                          }else{
+                             ?>
                                 <script>
                                   const Toast = Swal.mixin({
                                     toast: true,
@@ -85,62 +130,40 @@ $admin = new AdminController($_SESSION['add']);
 
                                   Toast.fire({
                                     icon: 'error',
-                                    title: 'Can\'t change password try again.' 
+                                    title: '<?php echo $lang->tr("currentpassworderror"); ?>'
                                   })
                                 </script>
                             <?php
                           }
                         }else {
-                           ?>
-                                <script>
-                                  const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 9000,
-                                    timerProgressBar: true,
-                                    onOpen: (toast) => {
-                                      toast.addEventListener('mouseenter', Swal.stopTimer)
-                                      toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                    }
-                                  })
+                          ?>
+                            <script>
+                              const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 9000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                              })
 
-                                  Toast.fire({
-                                    icon: 'error',
-                                    title: 'Password doesn\'t match'
-                                  })
-                                </script>
-                            <?php
+                              Toast.fire({
+                                icon: 'error',
+                                title: '<?php echo $lang->tr("emptyfield"); ?>'
+                              })
+                            </script>
+                        <?php
                         }
-                      }else{
-                         ?>
-                                <script>
-                                  const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 9000,
-                                    timerProgressBar: true,
-                                    onOpen: (toast) => {
-                                      toast.addEventListener('mouseenter', Swal.stopTimer)
-                                      toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                    }
-                                  })
-
-                                  Toast.fire({
-                                    icon: 'error',
-                                    title: 'Current password is not correct'
-                                  })
-                                </script>
-                            <?php
-                      }
                     }
                   ?>
                   <form method="post"  enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Current Password</label>
+                          <label class="bmd-label-floating"><?php  echo $lang->tr('currentpassword');  ?></label>
                           <input type="text" name="cp" class="form-control">
                         </div>
                       </div>
@@ -148,7 +171,7 @@ $admin = new AdminController($_SESSION['add']);
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label class="bmd-label-floating">New Password</label>
+                          <label class="bmd-label-floating"><?php  echo $lang->tr('newpassword');  ?></label>
                           <input type="text" name="np" class="form-control">
                         </div>
                       </div>
@@ -156,13 +179,13 @@ $admin = new AdminController($_SESSION['add']);
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Confirm Password</label>
+                          <label class="bmd-label-floating"><?php  echo $lang->tr('confirmpassword');  ?></label>
                           <input type="text" name="rp" class="form-control">
                         </div>
                       </div>
                     </div>
 
-                    <button type="submit" name="add_pro" class="btn btn-warning pull-right">Change</button>
+                    <button type="submit" name="add_pro" class="btn btn-warning pull-right"><?php  echo $lang->tr('change');  ?></button>
                     <div class="clearfix"></div>
                   </form>
                 </div>
