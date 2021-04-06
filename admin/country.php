@@ -34,14 +34,11 @@ if(isset($_POST['add_country'])) {
   $backlink = ' <a href="./">Go back</a>';
   $id = uniqid().time();
   $name = $_POST['name'];
-  $code = $_POST['code'];
   if(empty($name)) {
      $statusMsg = $lang->tr('countrynamerequired');
-  }elseif (empty($code)) {
-     $statusMsg = $lang->tr('countrycoderequired');
   }
   else {
-      if($country->AddCountry($name,$code)) {
+      if($country->AddCountry($name)) {
         echo "<script>
           const Toast = Swal.mixin({
             toast: true,
@@ -124,20 +121,11 @@ if (isset($_POST['enable'])) { // checking if the Enabled is called or the butto
                   <div class="card-body" style="padding-top: 30px;padding-left: 30px;padding-right: 30px;">
                     <form method="post"  enctype="multipart/form-data">
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <div class="form-group">
                             <select class="form-control selectpicker temp1" name="name" data-style="btn btn-link">
                               <?php
                                 echo $countryview->get_countries_options();
-                              ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <select class="form-control selectpicker temp1" name="code" data-style="btn btn-link">
-                              <?php
-                              echo $countryview->get_countries_code_options();
                               ?>
                             </select>
                           </div>

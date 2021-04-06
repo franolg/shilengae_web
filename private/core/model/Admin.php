@@ -85,13 +85,6 @@ class Admin extends Database {
 		return $stmt->rowCount() == 0 ? false : true;
 	}
 
-	public function Language($id) {
-		$sql = "SELECT * FROM tableportalusers WHERE admin_id = ? AND status = ?";
-		$stmt = $this->c()->prepare($sql);
-		$stmt->execute([$id,1]);
-		$exe = $stmt->fetch();
-		return $exe['lan'];
-	}
 	public function Name($id) {
 		$sql = "SELECT * FROM tableportalusers WHERE admin_id = ? AND status = ?";
 		$stmt = $this->c()->prepare($sql);

@@ -121,16 +121,16 @@ else if(isset($_GET['q'])) {
                 </div>
                 <div class="carder">
                   <div class="card-header card-header-warning">
-                    <h4 class="card-title"><?php echo $lang->tr('Add Role'); ?></h4>
-                    <p class="card-category"><?php echo $lang->tr('Adding Page'); ?></p>
+                    <h4 class="card-title"><?php echo $lang->tr('addrole'); ?></h4>
+                    <p class="card-category"><?php echo $lang->tr('addingpage'); ?></p>
                   </div>
                   <div class="card-body" style="padding-top: 30px;padding-left: 30px;padding-right: 30px;">
-                    <form method="post"  enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
                              <div class="form-group">
-	                          <label class="bmd-label-floating"><?php echo $lang->tr('Username'); ?></label>
+	                          <label class="bmd-label-floating"><?php echo $lang->tr('username'); ?></label>
 	                          <input type="text" name="username" class="form-control">
 	                        </div>
                           </div>
@@ -142,6 +142,22 @@ else if(isset($_GET['q'])) {
                               <option value="moderator">Moderator</option>
                               <option value="account">Accounts</option>
                             </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                             <div class="form-group">
+                            <label class="bmd-label-floating"><?php echo $lang->tr('password'); ?></label>
+                            <input type="text" name="pass" class="form-control">
+                          </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                             <div class="form-group">
+                            <label class="bmd-label-floating"><?php echo $lang->tr('confirmpassword'); ?></label>
+                            <input type="text" name="cp" class="form-control">
+                          </div>
                           </div>
                         </div>
                       </div>

@@ -23,13 +23,11 @@
         "add" : "ጨምር",
         "edit" : "አስተካክል",
         "addrole" : "ሚና ጨምር",
-		"addingpage" : "መጨመሪያ ገፅ",
         "username" : "የተጠቃሚ ስም",
         "confirmpassword" : "የይለፍ ቃል አረጋግጥ",
         "addedby" : "የጨመረው",
         "action" : "እርምጃ",
         "recentlyadded" : "በቅርቡ የተጨመሩ",
-        "changerpage" : "መቀየሪያ ገፅ",
         "passwordsuccess": "የሚስጥር ቁጥሮ በሚገባ ተቀይሮዋል",
         "passworderror" : "የሚስጥር ቁጥሮን መቅየር አልተቻለም",
         "passwordunmatch" : "የሚስጥር ቁጥሮ አንድ አይነት አይደለም",
@@ -60,7 +58,10 @@
 		"callingcode" : "የአገር መለያ ቁጥር",
 		"business" : "ንግድ",
 		"edituser" : "ተጠቃሚን አድስ",
-		"noresult" :  "ባዶ ነው"
+        "addingpage" : "መጨመሪያ ገፅ",
+        "changerpage" : "መቀየሪያ ገፅ",
+		"noresult" :  "ባዶ ነው",
+        "editcountry" : "ሀገር አስተካክል"
     },
     "en": {
         "shilengae":"Shilengae",
@@ -123,6 +124,7 @@
 		"callingcode" : "Calling Code",
 		"business" : "Business",
 		"edituser" : "Edit User",
-		"noresult" :  "No Result"
+		"noresult" :  "No Result",
+        "editcountry" : "Edit Country"
     }
 }

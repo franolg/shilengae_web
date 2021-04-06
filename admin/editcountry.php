@@ -35,8 +35,7 @@ if (!$countryview->checkCountryID($id)) {
 <?php
 if(isset($_POST['edit_country'])) {
   $name = $_POST['name'];
-  $code = $_POST['code'];
-  if($country->EditCountry($id,$name,$code)) {
+  if($country->EditCountry($id,$name)) {
     ?>
       <script>
         const Toast = Swal.mixin({
@@ -93,14 +92,14 @@ if(isset($_POST['edit_country'])) {
           <div class="row">
             <div class="col-md-12">
               <div class="card">
-                <div class="card-header card-header-warning">
-                  <h4 class="card-title">Edit <?php echo ucwords($countryview->showCountry($id,'name')); ?></h4>
-                  <p class="card-category">Be sure before Editing Countries</p>
-                </div>
+                  <div class="card-header card-header-warning">
+                    <h4 class="card-title"><?php echo $lang->tr('editcountry'); ?></h4>
+                    <p class="card-category"><?php echo $lang->tr('changerpage'); ?></p>
+                  </div>
                 <div class="card-body">
                   <form method="post"  enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <div class="form-group">
                             <select class="form-control selectpicker temp1" name="name" data-style="btn btn-link">
                               <?php
@@ -109,18 +108,8 @@ if(isset($_POST['edit_country'])) {
                             </select>
                           </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <select class="form-control selectpicker temp1" name="code" data-style="btn btn-link">
-                              <?php
-                              echo $countryview->get_countries_code_options($countryview->showCountry($id,'short'));
-                              ?>
-                            </select>
-                          </div>
-                        </div>
                       </div>
-
-                    <button type="submit" name="edit_country" class="btn btn-warning pull-right">Edit User</button>
+                    <button type="submit" name="edit_country" class="btn btn-warning pull-right">Edit Country</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>

@@ -4,7 +4,9 @@
  */
 class LocalView extends Localization {
 	private $lang;
+	private $id;
 	function __construct($id) {
+		$this->id = $id;
 		$this->lang = $this->GetLanguage($id);
 	}
 
@@ -25,6 +27,10 @@ class LocalView extends Localization {
 
 	function lang() {
 		return $this->lang;
+	}
+
+	function changelan() {
+		return $this->Change($this->id);
 	}
 	
 

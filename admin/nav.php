@@ -1,7 +1,9 @@
 <?php
 $url = $_SERVER['PHP_SELF'];
 $lang = new LocalView($_SESSION['add']);
-
+if (isset($_POST['changelan'])) {
+  $lang->changelan();
+}
 ?>
 <div class="sidebar" data-color="orange" data-background-color="white" data-image="assets/img/sidebar-1.jpg">
   <div class="logo"><a href="fgsystem.net" class="simple-text logo-normal">
@@ -52,6 +54,14 @@ $lang = new LocalView($_SESSION['add']);
           <p><?php echo $lang->tr('logout'); ?></p>
         </a>
       </li>
+      <li class="nav-item ml-3 <?php $rev = substr($url,7) == 'changelan.php' ? 'active' : '' ; echo $rev; ?>">
+        <form method="post">
+          <button class="nav-link btn-block float-left" style="background: transparent;border: none;" type="submit" name="changelan">
+            <i><?php echo $lang->lang() != 'am' ? '🇪🇹 ' : '🇺🇸 '; ?></i>
+            <p class="float-left"><?php echo $lang->lang() != 'am' ? 'Amharic' : 'English'; ?></p>
+          </button>
+        </form>
+      </li> 
     </ul>
   </div>
 </div>
