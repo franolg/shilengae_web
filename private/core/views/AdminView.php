@@ -4,6 +4,7 @@
  * 
  */
 class AdminView extends Admin {
+	
 	public function check($id) {
 		return $this->Exist($id);
 	}
@@ -75,7 +76,13 @@ class AdminView extends Admin {
 			?><tr><td>No Result</td></tr><?php
 		}
 	}
-
+	public function RealAdmin($id) {
+		if ($this->ShowAdmin($id,'type') == 'admin') {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	public function ShowAdmin($id,$val) {
 		return $this->show($id,$val);
 	}

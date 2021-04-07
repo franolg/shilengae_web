@@ -44,21 +44,6 @@ if (isset($_POST['login'])) {
 					<span class="login100-form-title p-b-49">
 						Shilengae
 					</span>
-					<div class="wrap-input100 validate-input m-b-23" data-validate="Role is required">
-						<span class="label-input100">Role</span>
-						<div class="row">
-							<div class="col-md-1">
-								<span class="material-icons-outlined text-center" style="margin-left: 10px;color: #adadad;">groups</span>
-							</div>
-							<div class="col-md-11">
-								<select class="selectpicker w-100" data-style="btn-default p-0 pl-3" style="background-color: #fff !important;padding: 0px !important;">
-									<option>Admin</option>
-									<option disabled>Moderator</option>
-									<option disabled>Account</option>
-								</select>
-							</div>
-						</div>
-					</div>
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
 						<span class="label-input100">Username</span>
 						<input class="input100" type="text" name="username" placeholder="Type your username">

@@ -8,7 +8,10 @@ if(!isset($id) || !$adminview->check($id)){
   exit();
 }
 $lang = new LocalView($id);
-
+if (!$adminview->RealAdmin($id)) {
+  header("Location: 404");
+  exit();
+}
 ?>
           
 <!DOCTYPE html>
@@ -161,7 +164,7 @@ else if(isset($_GET['q'])) {
                           </div>
                         </div>
                       </div>
-                      <button type="submit" name="add_role" class="btn btn-warning pull-right add_pro"><?php echo $lang->tr('Add Role'); ?></button>
+                      <button type="submit" name="add_role" class="btn btn-warning pull-right add_pro"><?php echo $lang->tr('addrole'); ?></button>
                       <div class="clearfix"></div>
                     </form>
                   </div>
@@ -171,7 +174,7 @@ else if(isset($_GET['q'])) {
             <div class="col-md-4">
               <div class="card ">
                 <div class="card-body">
-                  <h6 class="card-category text-gray text-center"><?php echo $lang->tr('Recently Added'); ?></h6>
+                  <h6 class="card-category text-gray text-center"><?php echo $lang->tr('recentlyadded'); ?></h6>
                   <hr />
                   <?php
                   if(!$adminview->AnyAdmin($id)) {
@@ -180,10 +183,10 @@ else if(isset($_GET['q'])) {
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>'.$lang->tr('Username').'</th>
-                                <th>'.$lang->tr('Role').'</th>
-                                <th>'.$lang->tr('Added by').'</th>
-                                <th>'.$lang->tr('Action').'</th>
+                                <th>'.$lang->tr('username').'</th>
+                                <th>'.$lang->tr('role').'</th>
+                                <th>'.$lang->tr('addedby').'</th>
+                                <th>'.$lang->tr('action').'</th>
                             </tr>
                         </thead>
                         <tbody>

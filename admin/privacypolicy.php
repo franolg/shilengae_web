@@ -24,7 +24,6 @@ $id = @$_GET['q'];
 if(1==1) {
 $app = new AppView();
 $appc = new AppController();
-$lang = new LocalView($id);
 ?>
           
 <!DOCTYPE html>
@@ -33,7 +32,7 @@ $lang = new LocalView($id);
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title><?php echo $lang->tr('Shilengae')." ".$lang->tr('Admin Panel'); ?></title>
+  <title>Edit Privacy Policies</title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <?php include 'includes/style.php' ?>
 </head>
@@ -42,7 +41,7 @@ $lang = new LocalView($id);
 if(isset($_POST['edit_term'])) {
   $term = $_POST['term'];
   $flag = $_POST['flag'];
-  if($appc->EditTerm($term,$flag)) {
+  if($appc->Editprp($term,$flag)) {
       ?>
       <script>
         const Toast = Swal.mixin({
@@ -59,7 +58,7 @@ if(isset($_POST['edit_term'])) {
 
         Toast.fire({
           icon: 'success',
-          title: 'Terms and Conditions Have been edited successfully.'
+          title: 'Privacy Policies Have been edited successfully.'
         })
       </script>
       <?php
@@ -100,7 +99,7 @@ if(isset($_POST['edit_term'])) {
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Edit Terms and Conditions</h4>
+                  <h4 class="card-title">Edit Privacy Policies</h4>
                   <p class="card-category">Be sure before Editing Countries</p>
                 </div>
                 <div class="card-body">
@@ -110,17 +109,17 @@ if(isset($_POST['edit_term'])) {
                       <div class="col-md-12 pt-2">
                         <div class="form-group">
                           <label class="bmd-label-floating">Flag</label>
-                          <input type="text" name="flag" class="form-control" value="<?php echo $app->ShowTerms('flag'); ?>">
+                          <input type="text" name="flag" class="form-control" value="<?php echo $app->Showprp('flag'); ?>">
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label>Terms and Conditions</label>
+                          <label>Privacy Policies</label>
                           <div class="form-group">
                           <!--<label class="bmd-label-floating">.</label> -->
-                          <textarea class="form-control" name="term" rows="5"><?php echo trim($app->ShowTerms('content')); ?></textarea>
+                          <textarea class="form-control" name="term" rows="5"><?php echo trim($app->Showprp('content')); ?></textarea>
                           </div>
                         </div>
                       </div>

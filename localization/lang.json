@@ -61,7 +61,22 @@
         "addingpage" : "መጨመሪያ ገፅ",
         "changerpage" : "መቀየሪያ ገፅ",
 		"noresult" :  "ባዶ ነው",
-        "editcountry" : "ሀገር አስተካክል"
+        "editcountry" : "ሀገር አስተካክል",
+        "cityname": "የከተማ ስም",
+        "addcity" : "ከተማ ጨምር",
+        "editcity" : "ከተማን አስተካክል",
+        "regionname": "ክፍለ ከተማ",
+        "addregion" : "ክፍለ ከተማ ጨምር",
+        "editregion" : "ክፍለ ከተማን አስተካክል",
+        "namerequired" : "ስም ባዶ መሆን አይችልም",
+        "rolerequired": "ሚና ባዶ መሆን አይችልም",
+        "usernameexists" : "የተጠቃሚ ስም መደገም አይችልም",
+        "countryrequired" : "ሀገር ባዶ መሆን አይችልም",
+        "cityexists" : "አንድን ከተማ ደግሞ ማስገባት አይቻልም.",
+        "cityrequired" : "ከተማ ባዶ መሆን አይችልም.",
+        "regionrequired" : "ክፍለ ከተማ ባዶ መሆን አይችልም.",
+        "regexists" : "አንድን ክፍለ ከተማ ደግሞ ማስገባት አይቻልም." ,
+        "privacypolicy" : "የግላዊነት ፖሊሲዎች"       
     },
     "en": {
         "shilengae":"Shilengae",
@@ -125,6 +140,21 @@
 		"business" : "Business",
 		"edituser" : "Edit User",
 		"noresult" :  "No Result",
-        "editcountry" : "Edit Country"
+        "editcountry" : "Edit Country",
+        "cityname": "City Name",
+        "addcity" : "Add City",
+        "editcity" : "Edit City",
+        "regionname": "Region Name",
+        "addregion" : "Add Region",
+        "editregion" : "Edit Region",
+        "namerequired" : "Name is required",
+        "rolerequired" : "Role is required",
+        "usernameexists" : "Username Exists",
+        "countryrequired" : "Country is required",
+        "regionrequired" : "Region is required",
+        "cityexists" : "City Exists.",
+        "cityrequired" : "City is required",
+        "regexists" : "Region Exists.",
+        "privacypolicy" : "Privacy Policies"
     }
 }

@@ -18,5 +18,17 @@ class AppView extends Platform {
 		return $this->Show($request);
 	}
 
+	public function showAPP($lang = 'EN') {
+		$exe = $this->PrivacyPolicy();
+		if(!empty($exe)) {
+        	return array('success' => 1,'statuscode' => 200,"msg" => $exe['content']);
+		}else {
+        	return array('success' => 0,'statuscode' => 400,"msg" => "Not Available");
+		}
+	}
+	public function Showprp($request) {
+		return $this->ShowPP($request);
+	}
+
 	
 }

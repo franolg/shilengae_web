@@ -5,23 +5,23 @@
 class LocalView extends Localization {
 	private $lang;
 	private $id;
+
 	function __construct($id) {
 		$this->id = $id;
 		$this->lang = $this->GetLanguage($id);
 	}
-
 
 	function tr($txt) {
 		if ($this->lang == 'en') {
 			$json = file_get_contents(LOCAL);
 			$langs = json_decode($json, true);
 			$lang = $langs[$this->lang];
-			return @$lang[$txt] ? : "Unknown";
+			return @$lang[$txt] ? : $txt;
 		}else {
 			$json = file_get_contents(LOCAL);
 			$langs = json_decode($json, true);
 			$lang = $langs[$this->lang];
-			return @$lang[$txt] ? : "ማይታውቅ ቃል";
+			return @$lang[$txt] ? : $txt;
 		}
 	}
 

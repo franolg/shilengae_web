@@ -84,10 +84,9 @@ class CountryView extends Country {
 
 	public function get_countries_options($selected_country = "ET") {
 
-      	    $options = '';
-      	    $selected = '';
-      	    $countries = array
-      	          (
+            $options = '';
+            $selected = '';
+            $countries = array (
       	          'AF' => 'Afghanistan',
       	          'AX' => 'Aland Islands',
       	          'AL' => 'Albania',
@@ -334,18 +333,18 @@ class CountryView extends Country {
       	          'ZM' => 'Zambia',
       	          'ZW' => 'Zimbabwe',
       	      ); // Every countries list.
-
-      	    foreach ($countries as $code => $country_name) {
-      	          if($selected_country === $code){
-      	              $selected = 'selected="selected"';
-      	              $options .= '<option value="' . $code . '" ' . $selected . ' >'.$country_name.'</option>';
-      	          } else {
-      	              $options .= '<option value="' . $code . '" >'.$country_name.'</option>';
-      	          }
-      	    }
-      	    return $options;
-      	}
-	public function checkCountryID($id) {
+            foreach ($countries as $code => $country_name) {
+                if($selected_country === $code){
+                    $selected = 'selected="selected"';
+                    $options .= '<option value="' . $code . '" ' . $selected . ' >'.$country_name.'</option>';
+                } else {
+                    $options .= '<option value="' . $code . '" >'.$country_name.'</option>';
+                }
+            }
+            return $options;
+	}
+	
+      public function checkCountryID($id) {
 		return $this->isCountryID($id);
 	}
 	public function showCountry($id,$request) {

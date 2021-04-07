@@ -2,7 +2,7 @@
 
 class Country extends Database {
 
-	protected function ListAll() {
+	public function ListAll() {
 		$sql = "SELECT * FROM tableoperatingcountrylist";
 		$countryList = $this->c()->query($sql); // getting country list
 		if($countryList->rowCount() > 0) { // checking if the table is not empty

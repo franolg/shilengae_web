@@ -8,7 +8,10 @@ if(!isset($_SESSION['add']) || !$admin->check($_SESSION['add'])){
   header("Location: login.php");
   exit();
 }
-
+if (!$admin->RealAdmin($_SESSION['add'])) {
+  header("Location: 404");
+  exit();
+}
 ?>
           
 <!DOCTYPE html>

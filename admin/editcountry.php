@@ -109,7 +109,7 @@ if(isset($_POST['edit_country'])) {
                           </div>
                         </div>
                       </div>
-                    <button type="submit" name="edit_country" class="btn btn-warning pull-right">Edit Country</button>
+                    <button type="submit" name="edit_country" class="btn btn-warning pull-right"><?php echo $lang->tr('editcountry'); ?></button>
                     <div class="clearfix"></div>
                   </form>
                 </div>

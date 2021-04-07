@@ -7,19 +7,15 @@ if(!isset($id) || !$adminview->check($id)){
   header("Location: login.php");
   exit();
 }
-if (!$adminview->RealAdmin($id)) {
-  header("Location: 404");
-  exit();
-}
-$lang = new LocalView($id);
-$admin = new AdminController($id);
+$cityview = new CityView();
+$city = new CityController();
 
-$adid = @$_GET['q'];
-if (!$adminview->check($adid)) {
-  ?>
-  No result <a href="javascript:history.back();">Go Back</a>
-  <?php
+$q = $_GET['q'];
+if (!isset($q) || !$cityview->check($q)) {
+?>No result <a href="javascript:history.back();">Go Back</a><?php
 }else {
+$lang = new LocalView($id);
+
 ?>
           
 <!DOCTYPE html>
@@ -37,18 +33,17 @@ if (!$adminview->check($adid)) {
 
 </style>
 <?php
-if(isset($_POST['edit_role'])) {
+if(isset($_POST['edit_city'])) {
   $statusMsg = "";
   $backlink = ' <a href="./">Go back</a>';
-  $username = $_POST['username'];
-  $role = $_POST['role'];
-  if(empty($username)) {
-     $statusMsg = $lang->tr('namerequired');
-  }elseif (empty($role)) {
-     $statusMsg = $lang->tr('rolerequired');
-  }
-  else {
-      if($admin->EditRole($username,$role,$adid)) {
+  $cityname = $_POST['city'];
+  $country = $_POST['country'];
+  if(empty($cityname)) {
+     $statusMsg = $lang->tr("namerequired");
+  }elseif (empty($country)) {
+     $statusMsg = $lang->tr("countryrequired");
+  }else {
+      if($city->EditCity($q,$cityname,$country)) {
         echo "<script>
           const Toast = Swal.mixin({
             toast: true,
@@ -64,12 +59,12 @@ if(isset($_POST['edit_role'])) {
 
           Toast.fire({
             icon: 'success',
-            title: '".$lang->tr('editsuccess').".'
+            title: '".$lang->tr("editsuccess")."'
           })
         </script>";
     }
     else{
-         $statusMsg = $lang->tr('unexpectederror');
+         $statusMsg = $lang->tr("cityexists");
     }
   }
   if ($statusMsg != "") {
@@ -103,7 +98,7 @@ if(isset($_POST['edit_role'])) {
        <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="card unclass">
                 <div class="cssload-thecube">
                   <div class="cssload-cube cssload-c1"></div>
@@ -113,31 +108,29 @@ if(isset($_POST['edit_role'])) {
                 </div>
                 <div class="carder">
                   <div class="card-header card-header-warning">
-                    <h4 class="card-title"><?php echo $lang->tr('editrole'); ?></h4>
-                    <p class="card-category"><?php echo $lang->tr('addingpage'); ?></p>
+                    <h4 class="card-title"><?php echo $lang->tr('editcity'); ?></h4>
+                    <p class="card-category"><?php echo $lang->tr('changerpage'); ?></p>
                   </div>
                   <div class="card-body" style="padding-top: 30px;padding-left: 30px;padding-right: 30px;">
-                    <form method="post"  enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
                              <div class="form-group">
-                            <label class="bmd-label-floating"><?php echo $lang->tr('username'); ?></label>
-                            <input type="text" name="username" class="form-control" value="<?php echo $adminview->ShowAdmin($adid,'username'); ?>">
-                          </div>
+	                          <label class="bmd-label-floating"><?php echo $lang->tr('cityname'); ?></label>
+	                          <input type="text" name="city" class="form-control" value="<?php echo $cityview->ShowCity($q,'name'); ?>">
+	                        </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
-                            <select class="form-control selectpicker temp1" name="role" data-style="btn btn-link">
-                              <option <?php echo $adminview->ShowAdmin($adid,'type') == 'admin' ?'selected': ''; ?> value="admin" disabled="">Admin</option>
-                              <option <?php echo $adminview->ShowAdmin($adid,'type') == 'moderator' ?'selected': ''; ?> value="moderator">Moderator</option>
-                              <option <?php echo $adminview->ShowAdmin($adid,'type') == 'account' ?'selected': ''; ?> value="account">Accounts</option>
+                            <select class="form-control selectpicker temp1" name="country" data-style="btn btn-link">
+                              <?php echo $cityview->Cities($cityview->ShowCity($q,'country')); ?>
                             </select>
                           </div>
                         </div>
                       </div>
-                      <button type="submit" name="edit_role" class="btn btn-warning pull-right add_pro"><?php echo $lang->tr('editrole'); ?></button>
+                      <button type="submit" name="edit_city" class="btn btn-warning pull-right add_pro"><?php echo $lang->tr('editcity'); ?></button>
                       <div class="clearfix"></div>
                     </form>
                   </div>
@@ -150,18 +143,18 @@ if(isset($_POST['edit_role'])) {
 
     </div>
 </div>
-  <?php include 'includes/script.php' ?>
-  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $(".cssload-thecube").hide();
-      $(".add_pro").click(function () {
-        $(".carder").hide();
-        $(".unclass").css("padding","34.4%");
-        $(".cssload-thecube").css("display","block");
-      });
-    });
-  </script>
+	<?php include 'includes/script.php' ?>
+	<script src="assets/js/core/bootstrap-material-design.min.js"></script>
+	<script>
+	  $(document).ready(function() {
+	    $(".cssload-thecube").hide();
+	    $(".add_pro").click(function () {
+	      $(".carder").hide();
+	      $(".unclass").css("padding","34.4%");
+	      $(".cssload-thecube").css("display","block");
+	    });
+	  });
+	</script>
 </body>
 </html>
 <?php } ?>
