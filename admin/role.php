@@ -38,19 +38,19 @@ if(isset($_POST['add_role'])) {
   $password = $_POST['pass'];
   $cpassword = $_POST['cp'];
   if(empty($username)) {
-     $statusMsg = "Name is required.";
+     $statusMsg = $lang->tr('namerequired');
   }elseif (empty($role)) {
-     $statusMsg = "Role is required";
+     $statusMsg = $lang->tr('rolerequired');
   }elseif (empty($password)) {
-     $statusMsg = "Password is required";
+     $statusMsg = $lang->tr('passwordrequired');
   }elseif (empty($cpassword)) {
-     $statusMsg = "Confirm password is required";
+     $statusMsg = $lang->tr('confirmpasswordrequired');
   }elseif (strlen($password) < 6 || strlen($password) > 15) {
-     $statusMsg = "Password must be at least 6 and less than 15";
+    $statusMsg = $lang->tr('passwordlenerror');
   }elseif (strlen($cpassword) < 6 || strlen($cpassword) > 15) {
-     $statusMsg = "Confirm password must be at least 6 and less than 15";
+    $statusMsg = $lang->tr('confirmpasswordlenerror');
   }elseif ($password != $cpassword) {
-     $statusMsg = "Password doesn\'t match";
+    $statusMsg = $lang->tr('passwordunmatch');
   }
   else {
       if($admin->AddRole($username,$role,$cpassword)) {
@@ -69,12 +69,12 @@ if(isset($_POST['add_role'])) {
 
           Toast.fire({
             icon: 'success',
-            title: '".ucfirst($username)." have been added successfully with a role of ".ucwords($role).".'
+            title: '".$lang->tr('addedsuccess').".'
           })
         </script>";
     }
     else{
-         $statusMsg = "Username Exists.";
+         $statusMsg = $lang->tr('usernameexists');
     }
   }
   if ($statusMsg != "") {

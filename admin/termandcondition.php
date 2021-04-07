@@ -12,6 +12,8 @@ if (!$admin->RealAdmin($_SESSION['add'])) {
   header("Location: 404");
   exit();
 }
+$lang = new LocalView($_SESSION['add']);
+
 ?>
           
 <!DOCTYPE html>
@@ -20,7 +22,7 @@ if (!$admin->RealAdmin($_SESSION['add'])) {
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Shilengae Admin Panel</title>
+  <title><?php echo $lang->tr('shilengae')." ".$lang->tr('adminpanel'); ?> </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <?php include 'includes/style.php' ?>
 </head>
@@ -38,7 +40,7 @@ $backlink = ' <a href="./">Go back</a>';
 $id = uniqid().time();
 $term = $_POST['term'];
 if(empty($term)) {
-   $statusMsg = "Terms and Conditions can\'t be empty.";
+   $statusMsg = $lang->tr('termrequired');
 }
 else {
   echo $app->AddTerm($term);

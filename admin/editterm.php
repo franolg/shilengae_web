@@ -24,7 +24,7 @@ $id = @$_GET['q'];
 if(1==1) {
 $app = new AppView();
 $appc = new AppController();
-$lang = new LocalView($id);
+$lang = new LocalView($_SESSION['add']);
 ?>
           
 <!DOCTYPE html>
@@ -42,7 +42,28 @@ $lang = new LocalView($id);
 if(isset($_POST['edit_term'])) {
   $term = $_POST['term'];
   $flag = $_POST['flag'];
-  if($appc->EditTerm($term,$flag)) {
+  if(empty($term)) {
+    ?>
+        <script>
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 9000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: '<?php echo $lang->tr('termrequired'); ?>'
+          })
+        </script>
+    <?php
+  }else if ($appc->EditTerm($term,$flag)) {
       ?>
       <script>
         const Toast = Swal.mixin({
@@ -59,7 +80,7 @@ if(isset($_POST['edit_term'])) {
 
         Toast.fire({
           icon: 'success',
-          title: 'Terms and Conditions Have been edited successfully.'
+          title: '<?php echo $lang->tr('editsuccess'); ?>'
         })
       </script>
       <?php
@@ -81,7 +102,7 @@ if(isset($_POST['edit_term'])) {
 
           Toast.fire({
             icon: 'error',
-            title: 'Unexpected error, please try again.'
+            title: '<?php echo $lang->tr('unexpectederror'); ?>'
           })
         </script>
     <?php
@@ -100,8 +121,8 @@ if(isset($_POST['edit_term'])) {
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Edit Terms and Conditions</h4>
-                  <p class="card-category">Be sure before Editing Countries</p>
+                  <h4 class="card-title"><?php echo $lang->tr('editterm'); ?></h4>
+                  <p class="card-category"><?php echo $lang->tr('changerpage'); ?></p>
                 </div>
                 <div class="card-body">
                   
@@ -117,7 +138,7 @@ if(isset($_POST['edit_term'])) {
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label>Terms and Conditions</label>
+                          <label><?php echo $lang->tr('termsandcondition'); ?></label>
                           <div class="form-group">
                           <!--<label class="bmd-label-floating">.</label> -->
                           <textarea class="form-control" name="term" rows="5"><?php echo trim($app->ShowTerms('content')); ?></textarea>
@@ -125,7 +146,7 @@ if(isset($_POST['edit_term'])) {
                         </div>
                       </div>
                     </div>
-                    <button type="submit" name="edit_term" class="btn btn-warning pull-right">Edit</button>
+                    <button type="submit" name="edit_term" class="btn btn-warning pull-right"><?php echo $lang->tr('edit'); ?></button>
                     <div class="clearfix"></div>
                   </form>
                 </div>

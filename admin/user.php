@@ -7,40 +7,12 @@
     header("Location: login.php");
     exit();
   }
-
-  function ago($datetime, $full = false) {
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
-
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'year',
-        'm' => 'month',
-        'w' => 'week',
-        'd' => 'day',
-        'h' => 'hour',
-        'i' => 'minute',
-        's' => 'second',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-        } else {
-            unset($string[$k]);
-        }
-    }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? implode(', ', $string) . ' ago' : 'just now';
-  }
+  $lang = new LocalView($_SESSION['add']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Shilengae Admin Panel</title>
+  <title><?php echo $lang->tr('Shilengae')." ".$lang->tr('Admin Panel'); ?></title>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -132,8 +104,8 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-warning">
-                  <h4 class="card-title">Users</h4>
-                  <p class="card-category">Currently Actions are disabled</p>
+                  <h4 class="card-title"><?php echo $lang->tr('user'); ?></h4>
+                  <p class="card-category"><?php echo $lang->tr('addingpage'); ?></p>
                 </div>
                 <div class="card-body">
                   <?php
@@ -143,16 +115,16 @@
                       <img class="img-fluid" src="./assets/no-result.jpg" />
                     </center>
                     <?php
-                    }
+                    }else {
                   ?>
                   <div class="p-4">
                     <div class="row mt-5 mb-3 align-items-center">
 <!--                       <div class="col-md-1"></div>
  -->                      <div class="col-md-8">
-                        <input type="text" class="form-control" placeholder="Search in table..." id="searchField">
+                        <input type="text" class="form-control" placeholder="<?php echo $lang->tr('searchtable'); ?>" id="searchField">
                       </div>
                       <div class="col-md-2 text-right">
-                        <span class="pr-3">Rows Per Page:</span>
+                        <span class="pr-3"><?php echo $lang->tr('rowperpage'); ?></span>
                       </div>
                       <div class="col-md-2">
                           <div class="d-flex justify-content-end">
@@ -167,6 +139,7 @@
                   </div>
                   <div id="table-sortable" class=""></div>
                   </div>
+                <?php } ?>
                 </div>
               </div>
             </div>
@@ -180,14 +153,14 @@
 <script src="https://table-sortable.now.sh/table-sortable.js"></script>
 <script>
   var columns = {
-    'id' : 'Id',
-    'fn': 'First Name',
-    'ln': 'Last Name',
-    'email': 'Email',
-    'calling_code': 'Calling Code',
-    'mobile':'Mobile',
-    'country': 'Country',
-    'action': 'Actions'
+    'id' : '<?php echo $lang->tr('id'); ?>',
+    'fn': '<?php echo $lang->tr('firstname'); ?>',
+    'ln': '<?php echo $lang->tr('lastname'); ?>',
+    'email': '<?php echo $lang->tr('email'); ?>',
+    'calling_code': '<?php echo $lang->tr('callingcode'); ?>',
+    'mobile': '<?php echo $lang->tr('mobile'); ?>',
+    'country': '<?php echo $lang->tr('country'); ?>',
+    'action': '<?php echo $lang->tr('action'); ?>'
 }
 
   var table = $('#table-sortable').tableSortable({
