@@ -37,7 +37,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 		else {
 			$msg = array('success' => 0,'statuscode' => 400,"msg" => $error_1); // setting error 1
 		}
-		printf($cog->j($msg)); // showing the message
+		echo $cog->j($msg); // showing the message
 	}else {
 			header("WWW-Authenticate: Basic realm='Private Area'");
 			header("HTTP/1.0 401  Unauthorized");

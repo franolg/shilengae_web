@@ -9,7 +9,8 @@ class LoginView extends User {
 		$exe = $this->Auth($mobile,$calling_code);
 		if (!empty($exe)) {
 			if(password_verify($password, $exe['password'])) {
-				return array(
+				if($exe['status']){
+					return array(
 							'success' => 1,
 							'statuscode' => 200,
 							'msg' => 'Login Successfully!',
@@ -46,6 +47,13 @@ class LoginView extends User {
 								'modified_at' => (int) $exe['modified_at'],
 								),
 						);
+				}else {
+					return array(
+					'success' => 0,
+					'statuscode' => 400,
+					'msg' => 'You Banned!',
+				);
+				}
 			}else {
 				return array(
 					'success' => 0,

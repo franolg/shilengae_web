@@ -22,6 +22,75 @@
 <?php
   $user = new UserController();
   $userview = new UserView();
+  if (isset($_GET['b'])) {
+    $id = $_GET['b'];
+    if ($userview->CheckUserID($id)) {
+      if($user->BanUser($id)){
+            ?>
+            <script>
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 9000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+
+              Toast.fire({
+                icon: 'success',
+                title: 'Banned successfully.'
+              })
+            </script>
+            <?php
+      } else {
+        ?>
+            <script>
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 9000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+
+              Toast.fire({
+                icon: 'success',
+                title: 'Can not ban this user.'
+              })
+            </script>
+            <?php
+      }
+    } else {
+        ?>
+        <script>
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 9000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Can not find user.'
+          })
+        </script>
+        <?php
+    }
+  }
   if (isset($_GET['q'])) {
     $id = $_GET['q'];
     if ($userview->CheckUserID($id)) {
@@ -153,14 +222,21 @@
 <script src="https://table-sortable.now.sh/table-sortable.js"></script>
 <script>
   var columns = {
-    'id' : '<?php echo $lang->tr('id'); ?>',
-    'fn': '<?php echo $lang->tr('firstname'); ?>',
-    'ln': '<?php echo $lang->tr('lastname'); ?>',
-    'email': '<?php echo $lang->tr('email'); ?>',
-    'calling_code': '<?php echo $lang->tr('callingcode'); ?>',
-    'mobile': '<?php echo $lang->tr('mobile'); ?>',
-    'country': '<?php echo $lang->tr('country'); ?>',
-    'action': '<?php echo $lang->tr('action'); ?>'
+    'id' : '<?php echo urldecode($lang->tr('id')); ?>',
+    'fn': '<?php echo urldecode($lang->tr('firstname')); ?>',
+    'ln': '<?php echo urldecode($lang->tr('lastname')); ?>',
+    'email': '<?php echo urldecode($lang->tr('email')); ?>',
+    'calling_code': '<?php echo urldecode($lang->tr('callingcode')); ?>',
+    'mobile': '<?php echo urldecode($lang->tr('mobile')); ?>',
+    'country': '<?php echo urldecode($lang->tr('country')); ?>',
+    'last_online_at' : 'Last online',
+    'last_logged_in' : 'Last logged',
+    'login_attempt' : 'Login Attempt',
+    'time_spent' : 'Time Spent',
+    'last_seen_ip' : 'Last seen IP',
+    'last_device' : 'Last Device',
+    'action': '<?php echo urldecode($lang->tr('action')); ?>'
+
 }
 
   var table = $('#table-sortable').tableSortable({

@@ -25,11 +25,14 @@ class UserView extends User {
 	public function AddFacebook($firstname,$lastname,$email,$img) {
 		$userid = uniqid()."/".time();
 		$timer = time();
-
-		if ($this->Facebook($userid,$firstname,$lastname,$email,urldecode($img),$timer)) {
-			return array('success' => 1,'statuscode' => 200,"msg" => "Your facebook account have been linked successfully.");
-		} else {
-			return array('success' => 0,'statuscode' => 400,"msg" => "Unable to link you facebook account");
+		if (!$this->isEmailBanned($email)) {
+			if ($this->Facebook($userid,$firstname,$lastname,$email,urldecode($img),$timer)) {
+				return array('success' => 1,'statuscode' => 200,"msg" => "Your facebook account have been linked successfully.");
+			} else {
+				return array('success' => 0,'statuscode' => 400,"msg" => "Unable to link you facebook account");
+			}
+		}else {
+			return array('success' => 0,'statuscode' => 400,"msg" => "You're Banned");
 		}
 	}
 	public function MobileExists($code,$mobile) {

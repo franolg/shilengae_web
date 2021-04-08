@@ -6,7 +6,7 @@
 class User extends Database {
 
 	protected function ListAll() {
-		$sql = "SELECT * FROM tableusers";
+		$sql = "SELECT * FROM tableusers WHERE status = 1";
 		$stmt = $this->c()->query($sql); // getting country list
 		if($stmt->rowCount() > 0) { // checking if the table is not empty
 			return $stmt->fetchAll();
@@ -19,19 +19,29 @@ class User extends Database {
 		$query = "SELECT * FROM tableusers ORDER BY id";
 		$result = $this->c()->query($query);
 		while($row = $result->fetch()){
-			$first_name = $row['first_name'];
-			$last_name = $row['last_name'];
-			$email = $row['email'];
-			$calling_code = $row['calling_code'];
-			$country = $row['country'];
-			$stm = '<a href="edit?q='.$row['user_id'].'" class="btn btn-success">
+			$first_name = urldecode($row['first_name']);
+			$last_name = urldecode($row['last_name']);
+			$email = urldecode($row['email']);
+			$calling_code = urldecode($row['calling_code']);
+			$country = urldecode($row['country']);
+			$stm = '<a href="edit?q='.$row['user_id'].'" class="btn btn-success btn-sm d-block">
                             <i class="material-icons">edit</i>
                         </a>
-                        <a href="user?q='.$row['user_id'].'" class="btn btn-danger">
+                        <a href="?b='.$row['user_id'].'" class="btn btn-danger btn-sm d-block">
+                            <i class="material-icons">block</i>
+                        </a>
+                        <a href="?q='.$row['user_id'].'" class="btn btn-danger btn-sm d-block">
                             <i class="material-icons">close</i>
                         </a>';
 			$user_id = $row['user_id'];
 			$mobile = $row['mobile'];
+			$last_online_at = $row['last_online_at'];
+			$last_logged_in = $row['last_logged_in'];
+			$login_attempt = $row['login_attempt'];
+			$time_spent = $row['time_spent'];
+			$last_seen_ip = $row['last_seen_ip'];
+			$last_device = $row['last_device'];
+
 		    $return_arr[] = array(
 		    	"id" => $user_id,
 		    	"fn" => $first_name,
@@ -40,14 +50,20 @@ class User extends Database {
 		    	"calling_code" => $calling_code,
 		    	"country" => $country,
 		    	"action" => $stm,
-		    	"mobile" => $mobile
+		    	"mobile" => $mobile,
+		    	"last_online_at" => $last_online_at,
+		    	"last_logged_in" => $last_logged_in,
+		    	"login_attempt" => $login_attempt,
+		    	"time_spent" => $time_spent,
+		    	"last_seen_ip" => $last_seen_ip,
+		    	"last_device" => $last_device
 		    );
 		}
 
 		// Encoding array in JSON format
 		return json_encode($return_arr);
-
 	}
+
 	protected function Auth($mobile,$code) {
 		$sql = "SELECT * FROM tableusers WHERE mobile = ? AND calling_code = ?";
 		$stmt = $this->c()->prepare($sql);
@@ -60,29 +76,34 @@ class User extends Database {
 	}
 
 	protected function Exist($code,$mobile) {
-		$sql = "SELECT * FROM tableusers WHERE mobile = ? AND calling_code = ?";
+		$sql = "SELECT * FROM tableusers WHERE mobile = ? AND calling_code = ? AND status = ?";
 		$stmt = $this->c()->prepare($sql);
-		$stmt->execute([$mobile,$code]);
+		$stmt->execute([$mobile,$code,1]);
 		return $stmt->rowCount() == 0 ? false : true;
 	}
 	protected function CheckUsers() {
-		$sql = "SELECT * FROM tableusers";
+		$sql = "SELECT * FROM tableusers WHERE status = 1";
 		$stmt = $this->c()->query($sql);
 		return $stmt->rowCount() == 0 ? false : true;
 	}
 	protected function IDExist($id) {
-		$sql = "SELECT * FROM tableusers WHERE user_id = ?";
+		$sql = "SELECT * FROM tableusers WHERE user_id = ? AND status = ?";
 		$stmt = $this->c()->prepare($sql);
-		$stmt->execute([$id]);
+		$stmt->execute([$id,1]);
 		return $stmt->rowCount() == 0 ? false : true;
 	}
 	protected function FindEmail($email) {
-		$sql = "SELECT * FROM tableusers WHERE email = ?";
+		$sql = "SELECT * FROM tableusers WHERE email = ? AND status = ?";
 		$stmt = $this->c()->prepare($sql);
-		$stmt->execute([urldecode($email)]);
+		$stmt->execute([urldecode($email),1]);
         return $stmt->rowCount() == 0 ? false : true;
     }
-
+	protected function isEmailBanned($email) {
+		$sql = "SELECT * FROM tableusers WHERE email = ? AND status = ?";
+		$stmt = $this->c()->prepare($sql);
+		$stmt->execute([urldecode($email),0]);
+        return $stmt->rowCount() == 0 ? false : true;
+    }
 	protected function Add($firstname,$lastname,$mobile,$password,$country,$callingcode,$language,$business,$company) {
 		$userid = uniqid()."/".time();
 		$timer = time();
@@ -144,10 +165,19 @@ class User extends Database {
 			return false;
 		}
 	}
-	protected function show($id,$request) {
-		$sql = "SELECT * FROM tableusers WHERE user_id = ?";
+	protected function Ban($id) {
+		$sql = "UPDATE tableusers SET status = ?  WHERE user_id = ?";
 		$stmt = $this->c()->prepare($sql);
-		$stmt->execute([$id]);
+		if ($stmt->execute([0,$id])) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	protected function show($id,$request) {
+		$sql = "SELECT * FROM tableusers WHERE user_id = ? AND status = ?";
+		$stmt = $this->c()->prepare($sql);
+		$stmt->execute([$id,1]);
 		$exe = $stmt->fetch();
 		$result = "";
 		switch ($request) {

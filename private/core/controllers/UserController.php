@@ -29,5 +29,8 @@ class UserController extends User {
 	public function DeleteUser($id) {
 		return $this->Delete($id);
 	}
+	public function BanUser($id) {
+		return $this->Ban($id);
+	}
 
 }

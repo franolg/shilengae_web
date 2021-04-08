@@ -133,7 +133,7 @@
         "countryexists" : "Country already exists",
         "addcountry" : "Add Country",
         "countrycode" : "Country Code",
-        "status" :  "ሁኔታ",
+        "status" :  "Status",
         "disablecountry" : "Disable App Country",
         "enablecountry" : "Enable App country",
         "editsuccess" : "Edited Successfully",
